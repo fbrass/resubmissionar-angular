@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition template="template.xhtml">
+    <ui:define name="title">#{msgs.createCustomer_title}</ui:define>
+    <ui:define name="subtitle">#{msgs.createCustomer_subtitle}</ui:define>
+
+    <ui:define name="content">
+        <div class="legend-container" style="margin-top:2em">
+            <h:outputText styleClass="the-legend" value="#{msgs.createCustomer_legend}"/>
+            <h:form id="myform" pt:role="form" enctype="multipart/form-data">
+                <div class="form-group #{customerName.valid ? '' : 'has-error'}">
+                    <h:outputLabel for="customerName" value="#{msgs.createCustomer_name}" styleClass="control-label"/>
+                    <h:inputText id="customerName" value="#{createCustomer.customer.companyName}"
+                                 binding="#{customerName}"
+                                 styleClass="form-control" pt:placeholder="#{msgs.createCustomer_name_placeholder}"/>
+                    <h:panelGroup styleClass="help-block">
+                        <h:message for="customerName"/>
+                    </h:panelGroup>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel for="customerImage" value="#{msgs.createCustomer_image}" styleClass="control-label"/>
+                    <h:inputFile id="customerImage" value="#{createCustomer.logoPart}"
+                                 validator="#{createCustomer.validateLogoPart}"
+                                 styleClass="form-control"
+                                 pt:type="file" pt:placeholder="#{msgs.createCustomer_image_placeholder}"/>
+                </div>
+                <h:commandButton action="#{createCustomer.createCustomer}" value="#{msgs.createCustomer_submit}"
+                                 styleClass="btn btn-default"/>
+            </h:form>
+        </div>
+    </ui:define>
+
+    <ui:define name="bodyscript">
+        <script type="text/javascript">
+            $(function() {
+                $('#myform\\:customerName').focus();
+            });
+        </script>
+    </ui:define>
+</ui:composition>
+</html>

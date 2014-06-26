@@ -1,0 +1,48 @@
+/* app.css */
+
+body {
+    padding-top: 50px;
+}
+
+.starter-template {
+    padding: 40px 15px;
+}
+
+.debug,
+.debug-group {
+    background-color: #ffff00;
+}
+.debug-group {
+    padding: .5em;
+    border: 1px solid gray;
+}
+
+.legend-container {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+
+}
+
+.the-legend {
+    font-weight: 700;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 1em;
+}
+
+/* Things which are not global, which belong to certain pages */
+
+.dashboard-items .col1 {
+    min-width: 8em;
+}
+
+.dashboard-items .col3 {
+    min-width: 7em;
+}
+
+.customer-resubmission-items .col2 {
+    min-width: 7em;
+}

@@ -1,0 +1,12 @@
+<div class="page-header">
+    <h1>{{customer.companyName}} <small>Customer Details</small></h1>
+</div>
+
+<div class="container-fluid">
+    Id: {{customer.id}}
+    <span ng-if="customer.imageUrl">
+        <img ng-src="{{customer.imageUrl}}" ng-click="setImage(customer.imageUrl)"/>
+    </span>
+    <p>{{customer.description}}</p>
+    <button ng-click="hello(customer.id)" class="btn btn-default">{{customer.companyName}}</button>
+</div>

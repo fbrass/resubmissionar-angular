@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="template.xhtml">
+
+    <ui:define name="title">#{msgs.customerList_title}</ui:define>
+    <ui:define name="content">
+        <div class="container-fluid">
+            <div class="col-xs-12 col-md-8">
+                <h:form rendered="#{not empty customerList.customerList}">
+                    <h:dataTable value="#{customerList.customerList}" var="item" first="#{customerList.first}" rows="#{customerList.itemsPerPage}">
+                        <f:facet name="header">
+                            <div class="btn-toolbar" role="toolbar" style="margin: 1em 0">
+                                <div class="btn-group">
+                                    <h:commandButton value="#{msgs.customerList_prev}" action="#{customerList.prev}"
+                                                     rendered="#{customerList.prevVisible}" styleClass="btn btn-default"/>
+                                    <h:commandButton value="#{msgs.customerList_next}" action="#{customerList.next}"
+                                                     rendered="#{customerList.nextVisible}" styleClass="btn btn-default"/>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <h:column>
+                            <h:link value="#{item.companyName}" outcome="customerDetails" includeViewParams="true">
+                                <f:param name="customerId" value="#{item.customerId}"/>
+                            </h:link>
+                        </h:column>
+                        <f:facet name="footer">
+                            <div class="btn-group" style="margin: 1em 0">
+                                <h:commandButton value="#{msgs.customerList_prev}" action="#{customerList.prev}"
+                                                 rendered="#{customerList.prevVisible}" styleClass="btn btn-default"/>
+                                <h:commandButton value="#{msgs.customerList_next}" action="#{customerList.next}"
+                                                 rendered="#{customerList.nextVisible}" styleClass="btn btn-default"/>
+                            </div>
+                        </f:facet>
+                    </h:dataTable>
+                </h:form>
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <p class="text-right">
+                    <h:link value="${msgs.customerList_createCustomerLink}" outcome="createCustomer"/>
+                </p>
+            </div>
+        </div>
+
+        <!-- TODO just DEBUG -->
+        <h:panelGroup layout="block" rendered="#{not empty customerList.customerList}"
+                      style="background-color: #fffac5;margin-top:5em;max-width:400px; padding: .5em; border: 1px solid gray;">
+            <p><strong>DEBUG</strong></p>
+            <p>First: <h:outputText value="#{customerList.first}"/></p>
+            <p>All customers:</p>
+            <ul>
+                <ui:repeat value="#{customerList.customerList}" var="cust">
+                    <li><h:outputText value="#{cust.companyName}"/></li>
+                </ui:repeat>
+            </ul>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>
+</html>

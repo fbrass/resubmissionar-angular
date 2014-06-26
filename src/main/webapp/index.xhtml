@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="template.xhtml">
+    <ui:define name="title"><h:outputText value="#{msgs.dashboard_title}"/></ui:define>
+    <ui:define name="subtitle"><h:outputText value="#{msgs.dashboard_subtitle}"/></ui:define>
+
+    <ui:define name="content">
+        <h:panelGroup layout="block" rendered="#{empty index.dashboardResubmissions}" styleClass="alert alert-info">
+            <h:outputText value="#{msgs.dashboard_no_customers}"/>&#160;
+            <h:link outcome="customerList" value="#{msgs.dashboard_customerList_link}" styleClass="alert-link"/>
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="table-responsive" rendered="#{not empty index.dashboardResubmissions}">
+            <h:dataTable value="#{index.dashboardResubmissions}" var="item" styleClass="table table-striped dashboard-items"
+                         columnClasses="col1,col2,col3">
+                <h:column>
+                    <f:facet name="header">Customer</f:facet>
+                    <h:link value="#{item.customer.companyName}" outcome="customerDetails" includeViewParams="true">
+                        <f:param name="customerId" value="#{item.customer.customerId}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="#{msgs.dashboard_resubmissionList_note}"/></f:facet>
+                    <h:outputText value="#{item.note}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Due"/></f:facet>
+                    <h:outputText value="#{item.due}">
+                        <f:convertDateTime pattern="#{msgs.resubmission_date_format}" type="date"/>
+                    </h:outputText>
+                </h:column>
+            </h:dataTable>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
+</html>

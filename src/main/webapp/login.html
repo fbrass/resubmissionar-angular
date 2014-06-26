@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login Form</title>
+</head>
+<body>
+<h2>Hello, please log in:</h2>
+
+<form method="post" action="j_security_check">
+    <table role="presentation">
+        <tr>
+            <td><label for="j_username">Please type your user name:</label></td>
+            <td><input type="text" id="j_username" name="j_username" placeholder="Username" size="20" autofocus="autofocus"/></td>
+        </tr>
+        <tr>
+            <td><label for="j_password">Please type your password:</label></td>
+            <td><input type="password" id="j_password" name="j_password" placeholder="Password" size="20"/></td>
+        </tr>
+    </table>
+    <p>
+    <input type="submit" value="Submit"/>
+
+    <input type="reset" value="Reset"/>
+    </p>
+</form>
+</body>
+</html>
