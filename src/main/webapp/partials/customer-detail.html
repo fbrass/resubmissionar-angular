@@ -12,27 +12,27 @@
     <div class="legend-container" style="margin-top:2em">
         <span class="the-legend">New resubmission</span>
 
-        <form novalidate role="form">
-            <div id="resubmissionNoteGroup" class="form-group has-error">
+        <form name="resubform" role="form" novalidate>
+            <div id="resubmissionNoteGroup" name="resubmissionNoteGroup" class="form-group" ng-class="{'has-error':resubform.resubmissionNote.$invalid && !resubform.resubmissionNote.$pristine}">
                 <label for="resubmissionNote" class="control-label">Note</label>
-                <textarea ng-model="resub.note" id="resubmissionNote" rows="3" class="form-control" placeholder="Note"></textarea>
-                <span class="help-block">
-                    A fatal error ocured because of your input!
+                <textarea ng-model="resub.note" required id="resubmissionNote" name="resubmissionNote" rows="3" class="form-control" placeholder="Note"></textarea>
+                <span ng-show="resubform.resubmissionNote.$invalid && !resubform.resubmissionNote.$pristine" class="help-block">
+                    Note is required
                 </span>
             </div>
 
-            <div id="resubmissionDueDateGroup" class="form-group has-error">
+            <div id="resubmissionDueDateGroup" class="form-group" ng-class="{'has-error':resubform.resubmissionDueDate.$invalid}">
                 <label for="resubmissionDueDate" class="control-label">Due date</label>
-                <input ng-model="resub.due" my-datepicker id="resubmissionDueDate" type="date" class="form-control" placeholder="Due"/>
-                <span class="help-block">
-                    Another fatal error because of your inputs!
+                <input ng-model="resub.due" required my-datepicker id="resubmissionDueDate" name="resubmissionDueDate" type="date" class="form-control" placeholder="Due"/>
+                <span ng-show="resubform.resubmissionDueDate.$invalid" class="help-block">
+                    Due date is required
                 </span>
             </div>
 
-            <button ng-click="createResubmission(resub)" type="submit" class="btn btn-default">Create</button>
+            <button ng-click="createResubmission(resub)" ng-disabled="resubform.$invalid" type="submit" class="btn btn-default">Create</button>
         </form>
         <br/>
-        <pre class="debug-group">form = {{ resub | json }}</pre>
+        <!-- pre class="debug-group">form = {{ resub | json }}</pre -->
     </div>
 
     <div ng-if="customer.resubmissions" class="legend-container" style="margin-top:2em">
@@ -52,7 +52,7 @@
                         <td class="col2">{{h.due | date : 'yyyy-MM-dd'}}</td>
                         <td class="col3">
                             <span ng-if="h.active">
-                                <a href="#">Done</a>
+                                <a ng-click="markDone(h)">Done</a>
                             </span>
                         </td>
                     </tr>

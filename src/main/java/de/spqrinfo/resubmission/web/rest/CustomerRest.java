@@ -65,6 +65,7 @@ public class CustomerRest {
         }
         final ResubmissionRestDto r = new ResubmissionRestDto();
         r.setCustomerId(resub.getCustomer().getCustomerId());
+        r.setId(resub.getResubmissionId());
         r.setNote(resub.getNote());
         r.setDue(resub.getDue());
         r.setActive(resub.isActive());

@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -71,5 +72,13 @@ public class ResubmissionFacade {
 
         resultList.addAll(resultList2);
         return resultList;
+    }
+
+    public Resubmission getResubmission(final Long resubmissionId) {
+        final TypedQuery<Resubmission> q = this.entityManager.createQuery(
+                "SELECT r FROM Resubmission r WHERE r.resubmissionId = :id",
+                Resubmission.class);
+        q.setParameter("id", resubmissionId);
+        return q.getSingleResult();
     }
 }

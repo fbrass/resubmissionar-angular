@@ -4,17 +4,26 @@ import java.util.Date;
 
 public class ResubmissionRestDto {
 
-    private long customerId;
+    private Long customerId;
+    private Long id;
     private String note;
     private Date due;
-    private boolean active;
+    private Boolean active;
 
-    public long getCustomerId() {
+    public Long getCustomerId() {
         return this.customerId;
     }
 
-    public void setCustomerId(final long customerId) {
+    public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public String getNote() {
@@ -33,11 +42,11 @@ public class ResubmissionRestDto {
         this.due = due;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return this.active;
     }
 
-    public void setActive(final boolean active) {
+    public void setActive(final Boolean active) {
         this.active = active;
     }
 }

@@ -23,11 +23,18 @@ public class ResubmissionRest {
     @POST
     public void save(final ResubmissionRestDto resubmission) {
         final Customer customer = this.resubmissionFacade.getCustomer(resubmission.getCustomerId());
-
-        final Resubmission r = new Resubmission();
-        r.setNote(resubmission.getNote());
-        r.setDue(resubmission.getDue());
-
-        this.resubmissionFacade.createResubmission(customer, r);
+        if (resubmission.getId() == null) {
+            final Resubmission r = new Resubmission();
+            r.setNote(resubmission.getNote());
+            r.setDue(resubmission.getDue());
+            this.resubmissionFacade.createResubmission(customer, r);
+        } else {
+            // TODO get resubmission by id
+            final Resubmission r = this.resubmissionFacade.getResubmission(resubmission.getId());
+            r.setNote(resubmission.getNote());
+            r.setDue(resubmission.getDue());
+            r.setActive(resubmission.isActive());
+            this.resubmissionFacade.updateResubmission(r);
+        }
     }
 }
