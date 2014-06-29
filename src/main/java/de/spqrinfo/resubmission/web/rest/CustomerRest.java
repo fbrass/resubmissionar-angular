@@ -8,7 +8,9 @@ import de.spqrinfo.resubmission.web.rest.dto.CustomerRestDto;
 import de.spqrinfo.resubmission.web.rest.dto.ResubmissionRestDto;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,6 +20,7 @@ import java.util.List;
 
 @Path("/customers/")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class CustomerRest {
 
     @Inject
@@ -38,6 +41,19 @@ public class CustomerRest {
             customerRestList.add(customerRest);
         }
         return customerRestList.toArray(new CustomerRestDto[customerRestList.size()]);
+    }
+
+    @POST
+    public void save(final CustomerRestDto customer) {
+        if (customer.getId() == null) {
+            // create
+            final Customer c = new Customer();
+            c.setCompanyName(customer.getCompanyName());
+            this.resubmissionFacade.createCustomer(c);
+        } else {
+            // update
+            throw new RuntimeException("Not yet");
+        }
     }
 
     private static CustomerDetailRestDto toDetail(final Customer customer) {

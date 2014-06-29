@@ -22,6 +22,23 @@ resubmissionarControllers.controller('CustomerListCtrl', ['$scope', 'Customer', 
         };
     }]);
 
+resubmissionarControllers.controller('CustomerCtrl', ['$scope', 'Customer',
+    function($scope, Customer) {
+        var defaultForm = {
+            companyName:''
+        };
+
+        $scope.customer = angular.copy(defaultForm);
+
+        $scope.createCustomer = function(customer) {
+            Customer.save(customer, function() {
+                $scope.customerform.$setPristine(true);
+                $scope.customer = angular.copy(defaultForm);
+            })
+        };
+    }
+]);
+
 resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routeParams', 'Customer', 'Resubmission',
     function($scope, $routeParams, Customer, Resubmission) {
         function dateToYMD(date) {

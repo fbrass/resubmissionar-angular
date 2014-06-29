@@ -1,0 +1,21 @@
+<div class="page-header">
+    <h1>Create customer <small>what a luck</small></h1>
+</div>
+
+<div class="container-fluid">
+    <div class="legend-container" style="margin-top:2em">
+        <span class="the-legend">New Customer</span>
+
+        <form name="customerform" role="form" novalidate>
+            <div class="form-group">
+                <label class="control-label">Company name</label>
+                <input ng-model="customer.companyName" required name="companyName" type="text" class="form-control" placeholder="Name"/>
+                <span ng-show="customerform.companyName.$invalid && !customerform.companyName.$pristine" class="help-block">
+                    Name is required
+                </span>
+            </div>
+
+            <button ng-click="createCustomer(customer)" ng-disabled="customerform.$invalid" type="submit" class="btn btn-default">Create</button>
+        </form>
+    </div>
+</div>
