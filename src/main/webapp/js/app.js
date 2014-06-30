@@ -5,7 +5,8 @@
 var resubmissionarApp = angular.module('resubmissionarApp', [
     'ngRoute',
     'resubmissionarControllers',
-    'resubmissionarServices'
+    'resubmissionarServices',
+    'angularFileUpload'
 ]);
 
 resubmissionarApp.config(['$routeProvider',

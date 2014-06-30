@@ -6,10 +6,27 @@
     <div class="legend-container" style="margin-top:2em">
         <span class="the-legend">New Customer</span>
 
+        <h3>File upload demo</h3>
+        <div ng-controller="MyCtrl">
+            <input type="text" ng-model="myModelObj"/>
+            <br/>
+            <input type="file" ng-file-select="onFileSelect($files)"/>
+            <br/>
+            <input type="file" ng-file-select="onFileSelect($files)" multiple/>
+            <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class"
+                    ng-show="dropSupported">Drop files here</div>
+            <div ng-file-drop-available="dropSupported=true"
+                 ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+            <button ng-click="upload.abort()">Cancel Upload</button>
+        </div>
+
+        <hr >
+        <h3>Regular create customer form</h3>
+
         <form name="customerform" role="form" novalidate>
             <div class="form-group">
                 <label class="control-label">Company name</label>
-                <input ng-model="customer.companyName" required name="companyName" type="text" class="form-control" placeholder="Name"/>
+                <input ng-model="customer.companyName" required name="companyName" type="text" class="form-control" placeholder="Name" autofocus/>
                 <span ng-show="customerform.companyName.$invalid && !customerform.companyName.$pristine" class="help-block">
                     Name is required
                 </span>

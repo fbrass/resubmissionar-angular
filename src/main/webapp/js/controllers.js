@@ -22,23 +22,6 @@ resubmissionarControllers.controller('CustomerListCtrl', ['$scope', 'Customer', 
         };
     }]);
 
-resubmissionarControllers.controller('CustomerCtrl', ['$scope', 'Customer',
-    function($scope, Customer) {
-        var defaultForm = {
-            companyName:''
-        };
-
-        $scope.customer = angular.copy(defaultForm);
-
-        $scope.createCustomer = function(customer) {
-            Customer.save(customer, function() {
-                $scope.customerform.$setPristine(true);
-                $scope.customer = angular.copy(defaultForm);
-            })
-        };
-    }
-]);
-
 resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routeParams', 'Customer', 'Resubmission',
     function($scope, $routeParams, Customer, Resubmission) {
         function dateToYMD(date) {
@@ -83,3 +66,58 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routePar
             });
         };
     }]);
+
+resubmissionarControllers.controller('CustomerCtrl', ['$scope', 'Customer',
+    function($scope, Customer) {
+        var defaultForm = {
+            companyName:''
+        };
+
+        $scope.customer = angular.copy(defaultForm);
+
+        $scope.createCustomer = function(aCustomer) {
+            Customer.save(aCustomer, function() {
+                debugger;
+                if (null != $scope.uploadIds) {
+                    customer.logoId = $scope.uploadIds[0];
+                }
+                $scope.customerform.$setPristine(true);
+                $scope.customer = angular.copy(defaultForm);
+            })
+        };
+    }]);
+
+resubmissionarControllers.controller('MyCtrl', ['$scope', '$upload',
+    function($scope, $upload) {
+        $scope.onFileSelect = function($files) {
+            //$files: an array of files selected, each file has name, size, and type.
+            for (var i = 0; i < $files.length; i++) {
+                var file = $files[i];
+                $scope.upload = $upload.upload({
+                    url: 'image', //upload.php script, node.js route, or servlet url
+                    // method: 'POST' or 'PUT',
+                    method: 'POST',
+                    // headers: {'header-key': 'header-value'},
+                    // withCredentials: true,
+                    data: {myObj: $scope.myModelObj},
+                    file: file // or list of files: $files for html5 only
+                    /* set the file formData name ('Content-Desposition'). Default is 'file' */
+                    //fileFormDataName: myFile, //or a list of names for multiple files (html5).
+                    /* customize how data is added to formData. See #40#issuecomment-28612000 for sample code */
+                    //formDataAppender: function(formData, key, val){}
+                }).progress(function (evt) {
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function (data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log(data);
+                    debugger;
+                    $scope.uploadIds = data;
+                });
+                //.error(...)
+                //.then(success, error, progress);
+                //.xhr(function(xhr){xhr.upload.addEventListener(...)})// access and attach any event listener to XMLHttpRequest.
+            }
+        };
+    }]);
+
+

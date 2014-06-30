@@ -4,6 +4,7 @@ public class CustomerRestDto {
 
     private Long id;
     private String companyName;
+    private Long logoId;
 
     public Long getId() {
         return this.id;
@@ -19,5 +20,13 @@ public class CustomerRestDto {
 
     public void setCompanyName(final String companyName) {
         this.companyName = companyName;
+    }
+
+    public Long getLogoId() {
+        return this.logoId;
+    }
+
+    public void setLogoId(final Long logoId) {
+        this.logoId = logoId;
     }
 }
