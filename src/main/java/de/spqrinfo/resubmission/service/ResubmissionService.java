@@ -22,8 +22,20 @@ public class ResubmissionService {
     @Inject
     private UploadFileService uploadFileService;
 
-    public List<Customer> getCustomers() {
-        return this.entityManager.createQuery("SELECT c FROM Customer c ORDER BY c.companyName", Customer.class).getResultList();
+    public List<Customer> getCustomers(final Integer pageSize, final Integer page) {
+        final TypedQuery<Customer> query = this.entityManager.createQuery("SELECT c FROM Customer c ORDER BY c.companyName", Customer.class);
+
+        if (pageSize != null && page != null) {
+            query.setFirstResult((page - 1) * pageSize);
+            query.setMaxResults(pageSize);
+        }
+
+        return query.getResultList();
+    }
+
+    @Transactional
+    public long getCustomerCount() {
+        return (long) this.entityManager.createQuery("SELECT COUNT(c) FROM Customer c").getSingleResult();
     }
 
     @Transactional

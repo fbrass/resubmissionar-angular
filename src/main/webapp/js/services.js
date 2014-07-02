@@ -11,12 +11,13 @@ resubmissionarServices.factory('Dashboard', ['$resource',
         });
     }]);
 
-
 resubmissionarServices.factory('Customer', ['$resource',
     function($resource) {
-        return $resource('resources/customers/:customerId', {}, {
-            query: {method:'GET', params:{customerId:''}, isArray:true}
-        });
+        return $resource('resources/customers/:customerId/:pageSize/:page',
+            {customerId:null, pageSize:null, page:null},
+            {
+                'getPaginated': { method: 'GET', isArray: false } // !important
+            });
     }]);
 
 resubmissionarServices.factory('Resubmission', ['$resource',

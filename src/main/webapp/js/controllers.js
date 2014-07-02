@@ -8,18 +8,46 @@ resubmissionarControllers.controller('DashboardCtrl', ['$scope', 'Dashboard', fu
         $scope.dashboard = Dashboard.query();
     }]);
 
-resubmissionarControllers.controller('CustomerListCtrl', ['$scope', 'Customer', function($scope, Customer) {
-        $scope.customers = Customer.query();
-        $scope.orderProp = 'age'; // TODO unused
+resubmissionarControllers.controller('CustomerListCtrl', ['$scope', '$http', 'Customer',
+    function($scope, $http, Customer) {
+        $scope.paginationInfo = {
+            pageSize: 17,
+            page: 1,
+            hasNext: true,
+            hasPrev: false,
+            count: 0
+        };
+
+        $scope.getPaginatedData = function() {
+            $scope.customers = Customer.getPaginated(
+                {pageSize:$scope.paginationInfo.pageSize,
+                page:$scope.paginationInfo.page},
+                function(data) {
+                    // Update info
+                    $scope.paginationInfo.count = data.total;
+                    $scope.paginationInfo.hasPrev = $scope.paginationInfo.page > 1;
+                    $scope.paginationInfo.hasNext =
+                        $scope.customers.customers.length >= $scope.paginationInfo.pageSize;
+                }
+            );
+        };
+
         $scope.paginatePrev = function() {
-            alert('paginatePrev called');
+            if ($scope.paginationInfo.hasPrev) {
+                $scope.paginationInfo.page -= 1;
+                $scope.getPaginatedData();
+            }
         };
+
         $scope.paginateNext = function() {
-            alert('paginateNext called');
+            if ($scope.paginationInfo.hasNext) {
+                $scope.paginationInfo.page += 1;
+                $scope.getPaginatedData();
+            }
         };
-        $scope.createCustomer = function() {
-            alert('createCustomer called');
-        };
+
+        // Initial load of data
+        $scope.getPaginatedData();
     }]);
 
 resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routeParams', 'Customer', 'Resubmission',

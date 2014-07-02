@@ -5,6 +5,7 @@ import de.spqrinfo.resubmission.persistence.Resubmission;
 import de.spqrinfo.resubmission.service.ResubmissionService;
 import de.spqrinfo.resubmission.web.rest.dto.CustomerDetailDto;
 import de.spqrinfo.resubmission.web.rest.dto.CustomerDto;
+import de.spqrinfo.resubmission.web.rest.dto.CustomerPaginatedDto;
 import de.spqrinfo.resubmission.web.rest.dto.ResubmissionDto;
 
 import javax.inject.Inject;
@@ -13,13 +14,20 @@ import javax.json.JsonObjectBuilder;
 import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import static java.util.logging.Level.INFO;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/customers/")
 @Produces(APPLICATION_JSON)
 @Consumes(APPLICATION_JSON)
 public class CustomerRest {
+
+    private static final Logger log = Logger.getLogger(CustomerRest.class.getName());
+
+    private static final int PAGE_SIZE_MAX = 2000;
 
     @Inject
     private ResubmissionService resubmissionService;
@@ -32,13 +40,30 @@ public class CustomerRest {
     }
 
     @GET
-    public CustomerDto[] getAll() {
-        final List<CustomerDto> customerRestList = new ArrayList<>();
-        for (final Customer c : this.resubmissionService.getCustomers()) {
-            final CustomerDto customerRest = to(c);
-            customerRestList.add(customerRest);
+    @Path("{pageSize}/{page}")
+    public CustomerPaginatedDto getAll(@PathParam("pageSize") final Integer pageSize,
+                                       @PathParam("page") final Integer page) {
+        log.log(INFO, "getAll pageSize {0}, page {1}", new Object[]{ pageSize, page });
+
+        if (pageSize == null && page != null
+                || pageSize != null && page == null) {
+            throw new IllegalArgumentException("pageSize goes with page parameter");
         }
-        return customerRestList.toArray(new CustomerDto[customerRestList.size()]);
+
+        if (pageSize != null && (pageSize < 1 || pageSize > PAGE_SIZE_MAX)) {
+            throw new IllegalArgumentException("pageSize is invalid");
+        }
+
+        if (page != null && page < 1) {
+            throw new IllegalArgumentException("page is invalid");
+        }
+
+        final long customerCount = this.resubmissionService.getCustomerCount();
+
+        final List<CustomerDto> customers;
+        customers = this.resubmissionService.getCustomers(pageSize, page).stream().map(CustomerRest::to).collect(Collectors.toList());
+
+        return new CustomerPaginatedDto(customerCount, customers);
     }
 
     @POST

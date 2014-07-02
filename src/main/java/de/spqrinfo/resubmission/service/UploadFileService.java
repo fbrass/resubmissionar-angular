@@ -17,7 +17,7 @@ import static java.util.logging.Level.INFO;
 @Stateless
 public class UploadFileService {
 
-    private final static Logger log = Logger.getLogger(UploadFileService.class.getName());
+    private static final Logger log = Logger.getLogger(UploadFileService.class.getName());
 
     private static final long ONE_MINUTE_IN_MILLIS = 60000; // ms
 

@@ -3,15 +3,20 @@
 </div>
 
 <div class="container-fluid">
+    <pre style="background-color: #ffff00">{{ paginationInfo | json }}</pre>
+
     <div class="col-xs-12 col-md-8">
         <div class="btn-toolbar" role="toolbar" style="margin: 1em 0">
             <div class="btn-group">
-                <button ng-click="paginatePrev()" class="btn btn-default">Prev</button>
-                <button ng-click="paginateNext()" class="btn btn-default">Next</button>
+                <button ng-click="paginatePrev()" ng-disabled="!paginationInfo.hasPrev"
+                        class="btn btn-default">Prev</button>
+                <button ng-click="paginateNext()" ng-disabled="!paginationInfo.hasNext"
+                        class="btn btn-default">Next</button>
             </div>
         </div>
+
         <ul>
-            <li ng-repeat="customer in customers">
+            <li ng-repeat="customer in customers.customers">
                 <a href="#/customers/{{customer.id}}">{{customer.companyName}}</a>
             </li>
         </ul>
