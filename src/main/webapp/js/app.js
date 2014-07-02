@@ -29,7 +29,7 @@ resubmissionarApp.config(['$routeProvider',
             }).
             when('/create-customer', {
                 templateUrl: 'partials/create-customer.html',
-                controller: 'CustomerCtrl'
+                controller: 'CreateCustomerCtrl'
             }).
             otherwise({
                 redirectTo: '/dashboard'

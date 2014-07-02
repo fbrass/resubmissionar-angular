@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-public class Upload {
+public class UploadFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +30,8 @@ public class Upload {
 
     @NotNull
     private Date created;
+
+    private boolean temporary = true;
 
     public Long getUploadId() {
         return this.uploadId;
@@ -77,5 +79,13 @@ public class Upload {
 
     public void setCreated(final Date created) {
         this.created = created;
+    }
+
+    public boolean isTemporary() {
+        return this.temporary;
+    }
+
+    public void setTemporary(final boolean temporary) {
+        this.temporary = temporary;
     }
 }

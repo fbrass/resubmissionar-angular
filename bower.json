@@ -12,6 +12,7 @@
         "jquery": "1.11.x",
         "jquery-ui": "~1.10.x",
         "bootstrap": "3.2.x",
-        "ng-file-upload": "1.4.x"
+        "ng-file-upload": "1.4.x",
+        "ng-grid": "2.0.x"
     }
 }

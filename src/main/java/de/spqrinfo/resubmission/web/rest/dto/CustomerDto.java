@@ -1,6 +1,6 @@
 package de.spqrinfo.resubmission.web.rest.dto;
 
-public class CustomerRestDto {
+public class CustomerDto {
 
     private Long id;
     private String companyName;

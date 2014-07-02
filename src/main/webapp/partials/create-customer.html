@@ -6,24 +6,25 @@
     <div class="legend-container" style="margin-top:2em">
         <span class="the-legend">New Customer</span>
 
-        <h3>File upload demo</h3>
-        <div ng-controller="MyCtrl">
-            <input type="text" ng-model="myModelObj"/>
-            <br/>
-            <input type="file" ng-file-select="onFileSelect($files)"/>
-            <br/>
-            <input type="file" ng-file-select="onFileSelect($files)" multiple/>
-            <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class"
-                    ng-show="dropSupported">Drop files here</div>
-            <div ng-file-drop-available="dropSupported=true"
-                 ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
-            <button ng-click="upload.abort()">Cancel Upload</button>
-        </div>
-
-        <hr >
-        <h3>Regular create customer form</h3>
-
         <form name="customerform" role="form" novalidate>
+            <div class="form-group">
+                <label ng-show="!dropSupported" class="control-label">Company logo</label>
+                <input ng-show="!dropSupported" type="text" ng-model="customer.logo"/>
+                <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-upload-drag-over"
+                     ng-show="dropSupported" class="file-upload-drop-area">
+                    <div class="cell">
+                        <div class="content">
+                            <img ng-show="imageUrl" ng-src="{{imageUrl}}"/>
+                        </div>
+                        <span ng-show="!imageUrl">Drop logo here</span>
+                    </div>
+                </div>
+                <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">
+                    HTML5 Drop File is not supported!
+                </div>
+                <a ng-click="removeImage()" ng-show="imageUrl">Remove image</a>
+            </div>
+
             <div class="form-group">
                 <label class="control-label">Company name</label>
                 <input ng-model="customer.companyName" required name="companyName" type="text" class="form-control" placeholder="Name" autofocus/>

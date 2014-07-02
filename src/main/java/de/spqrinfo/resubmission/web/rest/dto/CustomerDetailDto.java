@@ -1,10 +1,10 @@
 package de.spqrinfo.resubmission.web.rest.dto;
 
-public class CustomerDetailRestDto extends CustomerRestDto {
+public class CustomerDetailDto extends CustomerDto {
 
     private String imageUrl;
     private String description;
-    private ResubmissionRestDto[] resubmissions;
+    private ResubmissionDto[] resubmissions;
 
     public String getImageUrl() {
         return this.imageUrl;
@@ -22,11 +22,11 @@ public class CustomerDetailRestDto extends CustomerRestDto {
         this.description = description;
     }
 
-    public ResubmissionRestDto[] getResubmissions() {
+    public ResubmissionDto[] getResubmissions() {
         return this.resubmissions;
     }
 
-    public void setResubmissions(final ResubmissionRestDto[] resubmissions) {
+    public void setResubmissions(final ResubmissionDto[] resubmissions) {
         this.resubmissions = resubmissions;
     }
 }

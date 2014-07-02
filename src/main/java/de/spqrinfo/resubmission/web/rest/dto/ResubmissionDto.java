@@ -2,7 +2,7 @@ package de.spqrinfo.resubmission.web.rest.dto;
 
 import java.util.Date;
 
-public class ResubmissionRestDto {
+public class ResubmissionDto {
 
     private Long customerId;
     private Long id;

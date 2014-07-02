@@ -60,15 +60,15 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routePar
         };
 
         $scope.markDone = function(resubmission) {
-            resubmission.active = false
+            resubmission.active = false;
             Resubmission.save(resubmission, function() {
                 reloadCustomer();
             });
         };
     }]);
 
-resubmissionarControllers.controller('CustomerCtrl', ['$scope', 'Customer',
-    function($scope, Customer) {
+resubmissionarControllers.controller('CreateCustomerCtrl', ['$scope', '$location' , '$upload', 'Customer',
+    function($scope, $location, $upload, Customer) {
         var defaultForm = {
             companyName:''
         };
@@ -76,48 +76,44 @@ resubmissionarControllers.controller('CustomerCtrl', ['$scope', 'Customer',
         $scope.customer = angular.copy(defaultForm);
 
         $scope.createCustomer = function(aCustomer) {
-            Customer.save(aCustomer, function() {
-                debugger;
-                if (null != $scope.uploadIds) {
-                    customer.logoId = $scope.uploadIds[0];
-                }
+            Customer.save(aCustomer, function(data) {
                 $scope.customerform.$setPristine(true);
                 $scope.customer = angular.copy(defaultForm);
+
+                // show customer details and back button should not go back to create-customer
+                if (data.customerId) {
+                    $location.path('/customers/' + data.customerId);
+                } else {
+                    $location.path('/customers');
+                }
+                $location.replace();
             })
         };
-    }]);
 
-resubmissionarControllers.controller('MyCtrl', ['$scope', '$upload',
-    function($scope, $upload) {
+        $scope.removeImage = function() {
+            $scope.imageUrl = undefined;
+            $scope.customer.logoId = undefined;
+        };
+
         $scope.onFileSelect = function($files) {
-            //$files: an array of files selected, each file has name, size, and type.
+            // $files: an array of files selected, each file has name, size, and type.
             for (var i = 0; i < $files.length; i++) {
                 var file = $files[i];
                 $scope.upload = $upload.upload({
-                    url: 'image', //upload.php script, node.js route, or servlet url
-                    // method: 'POST' or 'PUT',
-                    method: 'POST',
-                    // headers: {'header-key': 'header-value'},
-                    // withCredentials: true,
-                    data: {myObj: $scope.myModelObj},
-                    file: file // or list of files: $files for html5 only
-                    /* set the file formData name ('Content-Desposition'). Default is 'file' */
-                    //fileFormDataName: myFile, //or a list of names for multiple files (html5).
-                    /* customize how data is added to formData. See #40#issuecomment-28612000 for sample code */
-                    //formDataAppender: function(formData, key, val){}
+                    url: 'file',
+                    method: 'POST', // POST or PUT
+                    file: file      // or list of files: $files for html5 only
                 }).progress(function (evt) {
                     console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-                }).success(function (data, status, headers, config) {
-                    // file is uploaded successfully
+                }).success(function (data, status, headers, config) { // file is uploaded successfully
                     console.log(data);
-                    debugger;
-                    $scope.uploadIds = data;
+                    $scope.uploads = data; // store uploads info in the scope to be used when customer is created
+                    if (data != null && data.length > 0) {
+                        var i = data[0];
+                        $scope.customer.logoId = i.logoId;
+                        $scope.imageUrl = i.imageUrl;
+                    }
                 });
-                //.error(...)
-                //.then(success, error, progress);
-                //.xhr(function(xhr){xhr.upload.addEventListener(...)})// access and attach any event listener to XMLHttpRequest.
             }
         };
     }]);
-
-

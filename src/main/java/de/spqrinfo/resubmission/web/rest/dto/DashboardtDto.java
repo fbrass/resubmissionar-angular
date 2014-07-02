@@ -2,7 +2,7 @@ package de.spqrinfo.resubmission.web.rest.dto;
 
 import java.util.Date;
 
-public class DashboardRestDto {
+public class DashboardtDto {
 
     private long customerId;
     private String customerName;
