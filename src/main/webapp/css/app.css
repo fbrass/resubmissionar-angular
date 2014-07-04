@@ -64,18 +64,10 @@ body {
 }
 
 .file-upload-drag-over {
-    border: 2px dashed #888;
+    border: 2px solid #888;
 }
 
 .file-upload-drag-over .cell {
     background-color: #888;
-}
-
-.file-upload-drop-area .cell .content {
-    /*color: #888;*/
-    /*text-align: center;*/
-}
-
-.customer-search {
-    margin: .3em 0 3em 0;
+    color: white;
 }

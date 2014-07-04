@@ -6,10 +6,10 @@
     <div class="legend-container" style="margin-top:2em">
         <span class="the-legend">New Customer</span>
 
-        <form name="customerform" role="form" novalidate>
+        <form name="customerform" role="form" novalidate="novalidate">
             <div class="form-group">
-                <label ng-show="!dropSupported" class="control-label">Company logo</label>
-                <input ng-show="!dropSupported" type="text" ng-model="customer.logo"/>
+                <label for="customerlogo" ng-show="!dropSupported" class="control-label">Company logo</label>
+                <input ng-show="!dropSupported" type="text" ng-model="customer.logo" id="customerlogo"/>
                 <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-upload-drag-over"
                      ng-show="dropSupported" class="file-upload-drop-area">
                     <div class="cell">
@@ -25,7 +25,7 @@
                 <a ng-click="removeImage()" ng-show="imageUrl">Remove image</a>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':customerform.companyName.$invalid && !customerform.companyName.$pristine}">
                 <label class="control-label">Company name</label>
                 <input ng-model="customer.companyName" required name="companyName" type="text" class="form-control" placeholder="Name" autofocus="autofocus"/>
                 <span ng-show="customerform.companyName.$invalid && !customerform.companyName.$pristine" class="help-block">
