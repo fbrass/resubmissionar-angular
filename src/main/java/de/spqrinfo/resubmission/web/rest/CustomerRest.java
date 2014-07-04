@@ -26,7 +26,7 @@ public class CustomerRest {
 
     private static final Logger log = Logger.getLogger(CustomerRest.class.getName());
 
-    private static final int PAGE_SIZE_MAX = 2000;
+    private static final int PAGE_SIZE_MAX = 4000; // Arbitrarily chosen
 
     @Inject
     private ResubmissionService resubmissionService;
@@ -42,27 +42,7 @@ public class CustomerRest {
     @Path("{pageSize}/{page}")
     public CustomerPaginatedDto getAll(@PathParam("pageSize") final Integer pageSize,
                                        @PathParam("page") final Integer page) {
-        log.log(INFO, "getAll pageSize {0}, page {1}", new Object[]{ pageSize, page });
-
-        if (pageSize == null && page != null
-                || pageSize != null && page == null) {
-            throw new IllegalArgumentException("pageSize goes with page parameter");
-        }
-
-        if (pageSize != null && (pageSize < 1 || pageSize > PAGE_SIZE_MAX)) {
-            throw new IllegalArgumentException("pageSize is invalid");
-        }
-
-        if (page != null && page < 1) {
-            throw new IllegalArgumentException("page is invalid");
-        }
-
-        final long customerCount = this.resubmissionService.getCustomerCount();
-
-        final List<CustomerDto> customers;
-        customers = this.resubmissionService.getCustomers(pageSize, page).stream().map(CustomerRest::to).collect(Collectors.toList());
-
-        return new CustomerPaginatedDto(customerCount, customers);
+        return getPaginated(pageSize, page, null);
     }
 
     @GET
@@ -70,7 +50,11 @@ public class CustomerRest {
     public CustomerPaginatedDto getAll(@PathParam("pageSize") final Integer pageSize,
                                        @PathParam("page") final Integer page,
                                        @PathParam("searchText") final String searchText) {
-        log.log(INFO, "getAll pageSize {0}, page {1}, searchText {2}", new Object[]{ pageSize, page, searchText});
+        return getPaginated(pageSize, page, searchText);
+    }
+
+    private CustomerPaginatedDto getPaginated(final Integer pageSize, final Integer page, final String searchText) {
+        log.log(INFO, "getPaginatedAll pageSize {0}, page {1}, searchText {2}", new Object[]{ pageSize, page, searchText});
 
         if (pageSize == null && page != null
                 || pageSize != null && page == null) {
@@ -85,12 +69,15 @@ public class CustomerRest {
             throw new IllegalArgumentException("page is invalid");
         }
 
-        final long customerCount = this.resubmissionService.getCustomerCount();
+        final List<Customer> customers;
+        if (searchText == null || searchText.isEmpty()) {
+            customers = this.resubmissionService.getCustomers(pageSize, page);
+        } else {
+            customers = this.resubmissionService.getCustomers(pageSize, page, searchText);
+        }
 
-        final List<CustomerDto> customers;
-        customers = this.resubmissionService.getCustomers(pageSize, page, searchText).stream().map(CustomerRest::to).collect(Collectors.toList());
-
-        return new CustomerPaginatedDto(customerCount, customers);
+        final List<CustomerDto> tmp = customers.stream().map(CustomerRest::to).collect(Collectors.toList());
+        return new CustomerPaginatedDto(this.resubmissionService.getCustomerCount(), tmp);
     }
 
     @POST
