@@ -1,17 +1,17 @@
 {
-    "name": "resubmissionar-angular",
-    "description": "a resubmission app using angular",
-    "version": "0.0.0",
-    "homepage": "http://nowhere.tld/",
-    "license": "Apache",
-    "private": "true",
-    "dependencies": {
-        "angular": "1.2.x",
-        "angular-route": "~1.2.x",
-        "angular-resource": "~1.2.x",
-        "jquery": "1.11.x",
-        "jquery-ui": "~1.10.x",
-        "bootstrap": "3.2.x",
-        "ng-file-upload": "1.4.x"
-    }
+  "name": "resubmissionar-angular",
+  "description": "a resubmission app using angular",
+  "version": "0.0.0",
+  "homepage": "http://spqr-info.de/",
+  "license": "Apache",
+  "private": "true",
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "~1.2.x",
+    "angular-resource": "~1.2.x",
+    "jquery": "1.11.x",
+    "jquery-ui": "~1.10.x",
+    "bootstrap": "3.2.x",
+    "ng-file-upload": "1.4.x"
+  }
 }
