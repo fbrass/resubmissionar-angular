@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -66,11 +65,40 @@ public class CustomerRest {
         return new CustomerPaginatedDto(customerCount, customers);
     }
 
+    @GET
+    @Path("{pageSize}/{page}/{searchText}")
+    public CustomerPaginatedDto getAll(@PathParam("pageSize") final Integer pageSize,
+                                       @PathParam("page") final Integer page,
+                                       @PathParam("searchText") final String searchText) {
+        log.log(INFO, "getAll pageSize {0}, page {1}, searchText {2}", new Object[]{ pageSize, page, searchText});
+
+        if (pageSize == null && page != null
+                || pageSize != null && page == null) {
+            throw new IllegalArgumentException("pageSize goes with page parameter");
+        }
+
+        if (pageSize != null && (pageSize < 1 || pageSize > PAGE_SIZE_MAX)) {
+            throw new IllegalArgumentException("pageSize is invalid");
+        }
+
+        if (page != null && page < 1) {
+            throw new IllegalArgumentException("page is invalid");
+        }
+
+        final long customerCount = this.resubmissionService.getCustomerCount();
+
+        final List<CustomerDto> customers;
+        customers = this.resubmissionService.getCustomers(pageSize, page, searchText).stream().map(CustomerRest::to).collect(Collectors.toList());
+
+        return new CustomerPaginatedDto(customerCount, customers);
+    }
+
     @POST
     public String save(final CustomerDto customer) {
         if (customer.getId() == null) { // create
             final Customer c = new Customer();
             c.setCompanyName(customer.getCompanyName());
+            c.setDescription(customer.getDescription());
             final Customer persistedCustomer = this.resubmissionService.createCustomer(c, customer.getLogoId());
             final JsonObjectBuilder builder = Json.createObjectBuilder().add("customerId", persistedCustomer.getCustomerId());
             return builder.build().toString();
@@ -86,14 +114,12 @@ public class CustomerRest {
         final CustomerDetailDto r = new CustomerDetailDto();
         r.setId(customer.getCustomerId());
         r.setCompanyName(customer.getCompanyName());
+        r.setDescription(customer.getDescription());
         if (customer.hasLogo()) {
             r.setImageUrl("file?kind=customerLogo&customer=" + customer.getCustomerId());
         }
-        r.setDescription("Some description of the customer");
-        final List<ResubmissionDto> resubmissionRestList = new ArrayList<>();
-        for (final Resubmission resubmission : customer.getResubmissions()) {
-            resubmissionRestList.add(to(resubmission));
-        }
+        final List<ResubmissionDto> resubmissionRestList;
+        resubmissionRestList = customer.getResubmissions().stream().map(CustomerRest::to).collect(Collectors.toList());
         r.setResubmissions(resubmissionRestList.toArray(new ResubmissionDto[resubmissionRestList.size()]));
         return r;
     }
@@ -118,6 +144,7 @@ public class CustomerRest {
         final CustomerDto r = new CustomerDto();
         r.setId(c.getCustomerId());
         r.setCompanyName(c.getCompanyName());
+        r.setDescription(c.getDescription());
         return r;
     }
 }

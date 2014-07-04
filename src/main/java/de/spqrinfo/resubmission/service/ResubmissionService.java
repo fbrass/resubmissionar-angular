@@ -22,8 +22,25 @@ public class ResubmissionService {
     @Inject
     private UploadFileService uploadFileService;
 
+    @Transactional
     public List<Customer> getCustomers(final Integer pageSize, final Integer page) {
         final TypedQuery<Customer> query = this.entityManager.createQuery("SELECT c FROM Customer c ORDER BY c.companyName", Customer.class);
+
+        if (pageSize != null && page != null) {
+            query.setFirstResult((page - 1) * pageSize);
+            query.setMaxResults(pageSize);
+        }
+
+        return query.getResultList();
+    }
+
+    @Transactional
+    public List<Customer> getCustomers(final Integer pageSize, final Integer page, final String searchText) {
+        final TypedQuery<Customer> query = this.entityManager.createQuery("SELECT c FROM Customer c"
+                + " WHERE lower(c.companyName) LIKE :companyName"
+                + " ORDER BY c.companyName", Customer.class);
+
+        query.setParameter("companyName", '%' + searchText.toLowerCase() + '%');
 
         if (pageSize != null && page != null) {
             query.setFirstResult((page - 1) * pageSize);

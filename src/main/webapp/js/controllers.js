@@ -11,43 +11,77 @@ resubmissionarControllers.controller('DashboardCtrl', ['$scope', 'Dashboard', fu
 resubmissionarControllers.controller('CustomerListCtrl', ['$scope', '$http', 'Customer',
     function($scope, $http, Customer) {
         $scope.paginationInfo = {
-            pageSize: 17,
+            searchText: undefined,
+            pageSize: 25,
             page: 1,
             hasNext: true,
             hasPrev: false,
             count: 0
         };
 
-        $scope.getPaginatedData = function() {
-            $scope.customers = Customer.getPaginated(
-                {pageSize:$scope.paginationInfo.pageSize,
-                page:$scope.paginationInfo.page},
-                function(data) {
-                    // Update info
-                    $scope.paginationInfo.count = data.total;
-                    $scope.paginationInfo.hasPrev = $scope.paginationInfo.page > 1;
-                    $scope.paginationInfo.hasNext =
-                        $scope.customers.customers.length >= $scope.paginationInfo.pageSize;
-                }
-            );
+        $scope.getPaginated = function() {
+            var search;
+
+            if ($scope.paginationInfo.searchText && $scope.paginationInfo.searchText.length > 1) {
+                search = $scope.paginationInfo.searchText;
+            } else {
+                search = undefined;
+            }
+
+            var args;
+            if (search) {
+                args = { pageSize: $scope.paginationInfo.pageSize,
+                    page: $scope.paginationInfo.page,
+                    searchText: search
+                };
+            } else {
+                args = { pageSize: $scope.paginationInfo.pageSize,
+                    page: $scope.paginationInfo.page
+                };
+            }
+
+            Customer.getPaginated(args, function(data) {
+                // set data when it's avail. to avoid flickering
+                $scope.customers = data.customers;
+                // Update info
+                $scope.paginationInfo.count = data.total;
+                $scope.paginationInfo.hasPrev = $scope.paginationInfo.page > 1;
+                $scope.paginationInfo.hasNext = data.customers.length >= $scope.paginationInfo.pageSize;
+            });
         };
 
         $scope.paginatePrev = function() {
             if ($scope.paginationInfo.hasPrev) {
                 $scope.paginationInfo.page -= 1;
-                $scope.getPaginatedData();
+                $scope.getPaginated();
             }
         };
 
         $scope.paginateNext = function() {
             if ($scope.paginationInfo.hasNext) {
                 $scope.paginationInfo.page += 1;
-                $scope.getPaginatedData();
+                $scope.getPaginated();
             }
         };
 
+        $scope.search = function() {
+            var timer;
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                $scope.getPaginated();
+            }, 300);
+        };
+
+        $scope.$watch('paginationInfo.searchText', function(newValue, oldValue) {
+            $scope.paginationInfo.page = 1; // reset to first page
+        });
+
+        $scope.isSeachEnabled= function() {
+            return $scope.paginationInfo.searchText && $scope.paginationInfo.searchText.length > 1;
+        };
+
         // Initial load of data
-        $scope.getPaginatedData();
+        $scope.getPaginated();
     }]);
 
 resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routeParams', 'Customer', 'Resubmission',
@@ -78,7 +112,6 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routePar
         }
 
         $scope.createResubmission = function(resub) {
-            //alert('createResubmission called with: ' + resub.note + ', ' + resub.due);
             resub.customerId = $scope.customer.id;
             Resubmission.save(resub, function() {
                 reloadCustomer();
@@ -98,7 +131,8 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routePar
 resubmissionarControllers.controller('CreateCustomerCtrl', ['$scope', '$location' , '$upload', 'Customer',
     function($scope, $location, $upload, Customer) {
         var defaultForm = {
-            companyName:''
+            companyName:'',
+            description:null
         };
 
         $scope.customer = angular.copy(defaultForm);

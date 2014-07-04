@@ -4,6 +4,7 @@ public class CustomerDto {
 
     private Long id;
     private String companyName;
+    private String description;
     private Long logoId;
 
     public Long getId() {
@@ -20,6 +21,14 @@ public class CustomerDto {
 
     public void setCompanyName(final String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public Long getLogoId() {

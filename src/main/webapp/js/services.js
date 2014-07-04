@@ -13,8 +13,8 @@ resubmissionarServices.factory('Dashboard', ['$resource',
 
 resubmissionarServices.factory('Customer', ['$resource',
     function($resource) {
-        return $resource('resources/customers/:customerId/:pageSize/:page',
-            {customerId:null, pageSize:null, page:null},
+        return $resource('resources/customers/:customerId/:pageSize/:page/:searchText',
+            {customerId:null, pageSize:null, page:null, searchText:null},
             {
                 'getPaginated': { method: 'GET', isArray: false } // !important
             });

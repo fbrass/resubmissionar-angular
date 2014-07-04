@@ -3,9 +3,15 @@
 </div>
 
 <div class="container-fluid">
-    <pre style="background-color: #ffff00">{{ paginationInfo | json }}</pre>
-
     <div class="col-xs-12 col-md-8">
+        <form ng-submit="search()" class="form-inline customer-search" role="form">
+            <div class="form-group">
+                <label class="sr-only">Search</label>
+                <input ng-model="paginationInfo.searchText" ng-keyup="search()" ng-minlength="2" type="text" class="form-control" placeholder="Customer search" autofocus="autofocus" size="70"/>
+            </div>
+            <button type="submit" ng-disabled="!isSeachEnabled()" class="btn btn-default">Go!</button>
+        </form>
+
         <div class="btn-toolbar" role="toolbar" style="margin: 1em 0">
             <div class="btn-group">
                 <button ng-click="paginatePrev()" ng-disabled="!paginationInfo.hasPrev"
@@ -16,10 +22,17 @@
         </div>
 
         <ul>
-            <li ng-repeat="customer in customers.customers">
-                <a href="#/customers/{{customer.id}}">{{customer.companyName}}</a>
+            <li ng-repeat="c in customers">
+                <a href="#/customers/{{c.id}}">{{c.companyName}}</a>
             </li>
         </ul>
+
+        <div class="btn-group">
+            <button ng-click="paginatePrev()" ng-disabled="!paginationInfo.hasPrev"
+                    class="btn btn-default">Prev</button>
+            <button ng-click="paginateNext()" ng-disabled="!paginationInfo.hasNext"
+                    class="btn btn-default">Next</button>
+        </div>
     </div>
     <div class="col-xs-6 col-md-4">
         <p class="text-right">

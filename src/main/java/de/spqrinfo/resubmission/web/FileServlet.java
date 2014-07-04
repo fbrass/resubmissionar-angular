@@ -7,7 +7,10 @@ import de.spqrinfo.resubmission.service.ResubmissionService;
 import de.spqrinfo.resubmission.service.UploadFileService;
 
 import javax.inject.Inject;
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -56,15 +58,13 @@ public class FileServlet extends HttpServlet {
             InputStream inputStream = null;
             try {
                 inputStream = part.getInputStream();
-                final ByteArrayOutputStream bout = new ByteArrayOutputStream();
-                final byte[] buf = new byte[4096];
-                int nb = inputStream.read(buf);
-                while (nb > 0) {
-                    bout.write(buf, 0, nb);
-                    nb = inputStream.read(buf);
-                }
+                final byte[] data = new byte[(int) part.getSize()];
+                final int nb = inputStream.read(data);
                 inputStream.close();
-                final byte[] data = bout.toByteArray();
+
+                if (nb != part.getSize()) {
+                    throw new RuntimeException("I/O error: invariant failed - read not advertised size");
+                }
 
                 final UploadFile uploadFile = new UploadFile();
                 uploadFile.setFilename(submittedFileName);

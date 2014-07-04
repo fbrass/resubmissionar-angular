@@ -16,6 +16,8 @@ public class Customer {
     @NotNull
     private String companyName;
 
+    private String description;
+
     @OneToMany(mappedBy = "customer")
     @OrderBy("due DESC")
     private final List<Resubmission> resubmissions = new ArrayList<>();
@@ -38,6 +40,14 @@ public class Customer {
 
     public void setCompanyName(final String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public List<Resubmission> getResubmissions() {

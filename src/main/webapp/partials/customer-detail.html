@@ -13,11 +13,11 @@
         <span class="the-legend">New resubmission</span>
 
         <form name="resubform" role="form" novalidate>
-            <div id="resubmissionNoteGroup" name="resubmissionNoteGroup" class="form-group"
+            <div id="resubmissionNoteGroup" class="form-group"
                  ng-class="{'has-error':resubform.resubmissionNote.$invalid && !resubform.resubmissionNote.$pristine}">
                 <label for="resubmissionNote" class="control-label">Note</label>
-                <textarea ng-model="resub.note" required id="resubmissionNote" name="resubmissionNote" rows="3"
-                          class="form-control" placeholder="Note" autofocus></textarea>
+                <textarea ng-model="resub.note" required="required" id="resubmissionNote" name="resubmissionNote" rows="3"
+                          class="form-control" placeholder="Note" autofocus="autofocus"></textarea>
                 <span ng-show="resubform.resubmissionNote.$invalid && !resubform.resubmissionNote.$pristine" class="help-block">
                     Note is required
                 </span>
@@ -25,7 +25,7 @@
 
             <div id="resubmissionDueDateGroup" class="form-group" ng-class="{'has-error':resubform.resubmissionDueDate.$invalid}">
                 <label for="resubmissionDueDate" class="control-label">Due date</label>
-                <input ng-model="resub.due" required my-datepicker id="resubmissionDueDate" name="resubmissionDueDate"
+                <input ng-model="resub.due" required="required" my-datepicker id="resubmissionDueDate" name="resubmissionDueDate"
                        type="date" class="form-control" placeholder="Due"/>
                 <span ng-show="resubform.resubmissionDueDate.$invalid" class="help-block">
                     Due date is required
