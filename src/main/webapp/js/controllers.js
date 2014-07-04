@@ -134,6 +134,29 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routePar
                 reloadCustomer();
             });
         };
+
+        // --------------------------------------- date stuff -------------------------------------
+
+        // Disable weekend selection
+        $scope.disabled = function(date, mode) {
+            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+        };
+
+        $scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+        };
+
+        $scope.initDate = new Date();
+        $scope.format = 'yyyy-MM-dd';
+
+
     }]);
 
 resubmissionarControllers.controller('CreateCustomerCtrl', ['$scope', '$location' , '$upload', 'Customer',

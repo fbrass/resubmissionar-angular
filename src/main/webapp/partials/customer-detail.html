@@ -23,10 +23,17 @@
                 </span>
             </div>
 
-            <div id="resubmissionDueDateGroup" class="form-group" ng-class="{'has-error':resubform.dueDate.$invalid}">
-                <label for="dueDate0" class="control-label">Due date</label>
-                <input ng-model="resub.due" required="required" my-datepicker="my-datepicker" id="dueDate0" name="dueDate"
-                       type="date" class="form-control" placeholder="Due"/>
+            <div class="form-group" ng-class="{'has-error':resubform.dueDate.$invalid}">
+                <label for="myDueDate">Due</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="resub.due" is-open="opened"
+                        min-date="minDate" datepicker-options="dateOptions"
+                        date-disabled="disabled(date, mode)" ng-required="true" show-button-bar="false" id="myDueDate"
+                        name="dueDate"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
                 <span ng-show="resubform.dueDate.$invalid" class="help-block">
                     Due date is required
                 </span>

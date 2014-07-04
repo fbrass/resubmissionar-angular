@@ -10,8 +10,8 @@
     "angular-route": "~1.2.x",
     "angular-resource": "~1.2.x",
     "jquery": "1.11.x",
-    "jquery-ui": "~1.10.x",
     "bootstrap": "3.2.x",
-    "ng-file-upload": "1.4.x"
+    "ng-file-upload": "1.4.x",
+    "angular-bootstrap": "~0.11.0"
   }
 }
