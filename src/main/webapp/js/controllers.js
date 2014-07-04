@@ -4,6 +4,11 @@
 
 var resubmissionarControllers = angular.module('resubmissionarControllers', []);
 
+
+resubmissionarControllers.controller('NavCtrl', ['$scope', '$route', function($scope, $route) {
+    $scope.$route = $route;
+}]);
+
 resubmissionarControllers.controller('DashboardCtrl', ['$scope', 'Dashboard', function($scope, Dashboard) {
         $scope.dashboard = Dashboard.query();
     }]);
@@ -66,13 +71,16 @@ resubmissionarControllers.controller('CustomerListCtrl', ['$scope', '$http', 'Cu
 
         $scope.search = function() {
             var timer;
-            clearTimeout(timer);
+            if (timer) {
+                clearTimeout(timer);
+            }
+            //noinspection JSUnusedAssignment
             timer = setTimeout(function() {
                 $scope.getPaginated();
             }, 300);
         };
 
-        $scope.$watch('paginationInfo.searchText', function(newValue, oldValue) {
+        $scope.$watch('paginationInfo.searchText', function(/*newValue, oldValue*/) {
             $scope.paginationInfo.page = 1; // reset to first page
         });
 
@@ -179,3 +187,7 @@ resubmissionarControllers.controller('CreateCustomerCtrl', ['$scope', '$location
             }
         };
     }]);
+
+resubmissionarControllers.controller('AboutCtrl', ['$scope', function($scope) {
+
+}]);
