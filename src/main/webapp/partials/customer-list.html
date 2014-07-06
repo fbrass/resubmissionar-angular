@@ -7,9 +7,14 @@
         <form ng-submit="search()" class="form-inline" role="form" style="margin: .3em 0 3em 0">
             <div class="form-group">
                 <label class="sr-only">Search</label>
-                <input ng-model="paginationInfo.searchText" ng-keyup="search()" ng-minlength="2" type="text" class="form-control" placeholder="Customer search" autofocus="autofocus" size="70"/>
+                <div class="input-group">
+                    <input ng-model="paginationInfo.searchText" ng-keyup="search()" ng-minlength="2" type="text"
+                           class="form-control" placeholder="Customer search" autofocus="autofocus" size="70"/>
+                    <span class="input-group-btn">
+                        <button type="submit" ng-disabled="!isSeachEnabled()" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+                </div>
             </div>
-            <button type="submit" ng-disabled="!isSeachEnabled()" class="btn btn-default">Go!</button>
         </form>
 
         <div class="btn-toolbar" role="toolbar" style="margin: 1em 0">
