@@ -41,13 +41,13 @@ body {
 
 /* Things which are not global, which belong to certain pages */
 
-/*.dashboard-items .col1 {*/
-    /*min-width: 8em;*/
-/*}*/
+.dashboard-items .col1 {
+    min-width: 8em;
+}
 
-/*.dashboard-items .col3 {*/
-    /*min-width: 7em;*/
-/*}*/
+.dashboard-items .col3 {
+    min-width: 7em;
+}
 
 .customer-resubmission-items .col2 {
     min-width: 7em;
