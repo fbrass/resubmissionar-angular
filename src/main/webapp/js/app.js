@@ -32,8 +32,15 @@ resubmissionarApp.config(['$routeProvider',
                 activeTab: 'customers'
             }).
             when('/create-customer', {
-                templateUrl: 'partials/create-customer.html',
-                controller: 'CreateCustomerCtrl',
+                templateUrl: 'partials/edit-customer.html',
+                controller: 'EditCustomerCtrl',
+                editMode: 'create',
+                activeTab: 'customers'
+            }).
+            when('/edit-customer/:customerId', {
+                templateUrl: 'partials/edit-customer.html',
+                controller: 'EditCustomerCtrl',
+                editMode: 'edit',
                 activeTab: 'customers'
             }).
             when('/about', {

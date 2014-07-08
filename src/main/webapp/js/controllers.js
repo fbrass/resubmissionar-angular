@@ -189,16 +189,32 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$location
         $scope.minDate = $scope.initDate;
     }]);
 
-resubmissionarControllers.controller('CreateCustomerCtrl', ['$scope', '$location' , '$upload', 'Customer',
-    function($scope, $location, $upload, Customer) {
+resubmissionarControllers.controller('EditCustomerCtrl', ['$scope', '$route', '$routeParams', '$location' , '$upload', 'Customer',
+    function($scope, $route, $routeParams, $location, $upload, Customer) {
+        var editMode = $route.current.editMode !== 'create'; // see app.js/create-customer
+
+        $scope.legendText = editMode ? 'Edit Customer' : 'New Customer';
+        $scope.saveCustomerText = editMode ? 'Save' : 'Create';
+
         var defaultForm = {
-            companyName:'',
-            description:null
+            companyName: '',
+            description: null
         };
 
-        $scope.customer = angular.copy(defaultForm);
+        if (editMode) {
+            $scope.customer = Customer.get({customerId: $routeParams.customerId}, function(customer) {
+                $scope.imageUrl = customer.imageUrl;
+            });
+        } else {
+            $scope.customer = angular.copy(defaultForm);
+        }
 
-        $scope.createCustomer = function(aCustomer) {
+        $scope.saveCustomer = function(aCustomer) {
+            debugger;
+
+            aCustomer.imageUrl = undefined; // Not known on the server!
+            aCustomer.resubmissions = undefined;
+
             Customer.save(aCustomer, function(data) {
                 $scope.customerform.$setPristine(true);
                 $scope.customer = angular.copy(defaultForm);
