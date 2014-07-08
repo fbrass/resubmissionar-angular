@@ -92,8 +92,8 @@ resubmissionarControllers.controller('CustomerListCtrl', ['$scope', '$http', 'Cu
         $scope.getPaginated();
     }]);
 
-resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$location', '$routeParams', 'Customer', 'Resubmission',
-    function($scope, $location, $routeParams, Customer, Resubmission) {
+resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$location', '$routeParams', '$modal', '$log', 'Customer', 'Resubmission',
+    function($scope, $location, $routeParams, $modal, $log, Customer, Resubmission) {
         function dateToYMD(date) {
             var d = date.getDate();
             var m = date.getMonth() + 1;
@@ -118,6 +118,42 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$location
                 $scope.customer = customer;
             });
         }
+
+        // Modal for delete customer confirmation
+
+        $scope.openDeleteCustomerModal = function () {
+            var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: ModalInstanceCtrl,
+                resolve: {
+                    customer: function () {
+                        return $scope.customer;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                Customer.delete({customerId: $routeParams.customerId}, function() {
+                    $log.info('Successfully deleted customer');
+                    $location.path('/customers');
+                    $location.replace();
+                });
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        var ModalInstanceCtrl = function ($scope, $modalInstance, customer) {
+            $scope.customer = customer;
+
+            $scope.ok = function () {
+                $modalInstance.close();
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+        };
 
         // Create new resubmission
 
