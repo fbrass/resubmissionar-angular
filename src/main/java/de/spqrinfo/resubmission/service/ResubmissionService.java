@@ -24,7 +24,7 @@ public class ResubmissionService {
 
     @Transactional
     public List<Customer> getCustomers(final Integer pageSize, final Integer page) {
-        final TypedQuery<Customer> query = this.entityManager.createQuery("SELECT c FROM Customer c ORDER BY c.companyName", Customer.class);
+        final TypedQuery<Customer> query = this.entityManager.createNamedQuery("Customer.findAll", Customer.class);
 
         if (pageSize != null && page != null) {
             query.setFirstResult((page - 1) * pageSize);
@@ -36,9 +36,7 @@ public class ResubmissionService {
 
     @Transactional
     public List<Customer> getCustomers(final Integer pageSize, final Integer page, final String searchText) {
-        final TypedQuery<Customer> query = this.entityManager.createQuery("SELECT c FROM Customer c"
-                + " WHERE lower(c.companyName) LIKE :companyName"
-                + " ORDER BY c.companyName", Customer.class);
+        final TypedQuery<Customer> query = this.entityManager.createNamedQuery("Customer.findAllMatching", Customer.class);
 
         query.setParameter("companyName", '%' + searchText.toLowerCase() + '%');
 
@@ -52,7 +50,7 @@ public class ResubmissionService {
 
     @Transactional
     public long getCustomerCount() {
-        return (long) this.entityManager.createQuery("SELECT COUNT(c) FROM Customer c").getSingleResult();
+        return (long) this.entityManager.createNamedQuery("Customer.count").getSingleResult();
     }
 
     @Transactional
@@ -63,6 +61,25 @@ public class ResubmissionService {
                 throw new RuntimeException("Invalid attempt to reference logo");
             }
             customer.setLogo(logo);
+        }
+
+        this.entityManager.persist(customer);
+
+        if (customer.hasLogo()) {
+            final UploadFile logo = customer.getLogo();
+            this.uploadFileService.markPermanent(logo);
+        }
+
+        return customer;
+    }
+
+    @Transactional
+    public Customer updateCustomer(final Customer customer, final Long logoId) {
+        if (logoId != null) { // attempt to reference previsously uploaded logo image
+            final UploadFile logo = this.uploadFileService.findTemporaryOrNull(logoId);
+            if (logo != null) {
+                customer.setLogo(logo);
+            }
         }
 
         this.entityManager.persist(customer);
@@ -89,6 +106,14 @@ public class ResubmissionService {
     }
 
     @Transactional
+    public void deleteCustomerLogo(final Customer customer) {
+        final UploadFile logo = customer.getLogo();
+        customer.setLogo(null);
+        this.entityManager.remove(logo);
+        this.entityManager.merge(customer);
+    }
+
+    @Transactional
     public void createResubmission(final Customer customer, final Resubmission resubmission) {
         resubmission.setResubmissionId(null); // force new
         resubmission.setActive(true);
@@ -96,16 +121,14 @@ public class ResubmissionService {
         customer.getResubmissions().add(resubmission);
         this.entityManager.persist(resubmission);
 
-        final Query query = this.entityManager.createQuery("UPDATE Resubmission r SET r.active = false WHERE r.customer = :cust " +
-                "AND r <> :resub");
+        final Query query = this.entityManager.createNamedQuery("Resubmission.markInactiveCertain");
         query.setParameter("cust", customer);
         query.setParameter("resub", resubmission);
         query.executeUpdate();
     }
 
     public List<Resubmission> getDashboardResubmissions() {
-        return this.entityManager.createQuery("SELECT r FROM Resubmission r WHERE r.active = true ORDER BY r.due DESC",
-                Resubmission.class).getResultList();
+        return this.entityManager.createNamedQuery("Resubmission.findAllActive", Resubmission.class).getResultList();
     }
 
     @Transactional
@@ -113,26 +136,8 @@ public class ResubmissionService {
         this.entityManager.merge(resubmission);
     }
 
-    // Difference to customer.getResubmissions() is that
-    //  active == true comes first
-    //  active == false is order by due date
-//    public List<Resubmission> getResubmissions(final Customer customer) {
-//        final String q1 = "SELECT r FROM Resubmission r WHERE r.active = true AND r.customer = :cust";
-//        final String q2 = "SELECT r FROM Resubmission r WHERE r.active = false AND r.customer = :cust ORDER BY r.due DESC";
-//
-//        final List<Resubmission> resultList = this.entityManager.createQuery(q1, Resubmission.class)
-//                .setParameter("cust", customer).getResultList();
-//        final List<Resubmission> resultList2 = this.entityManager.createQuery(q2, Resubmission.class)
-//                .setParameter("cust", customer).getResultList();
-//
-//        resultList.addAll(resultList2);
-//        return resultList;
-//    }
-
     public Resubmission getResubmission(final Long resubmissionId) {
-        final TypedQuery<Resubmission> q = this.entityManager.createQuery(
-                "SELECT r FROM Resubmission r WHERE r.resubmissionId = :id",
-                Resubmission.class);
+        final TypedQuery<Resubmission> q = this.entityManager.createNamedQuery("Resubmission.find", Resubmission.class);
         q.setParameter("id", resubmissionId);
         return q.getSingleResult();
     }

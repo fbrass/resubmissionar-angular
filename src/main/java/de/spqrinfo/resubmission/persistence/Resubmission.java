@@ -1,17 +1,16 @@
 package de.spqrinfo.resubmission.persistence;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name="Resubmission.markInactiveCertain",
+                query="UPDATE Resubmission r SET r.active = false WHERE r.customer = :cust AND r <> :resub"),
+        @NamedQuery(name="Resubmission.findAllActive", query="SELECT r FROM Resubmission r WHERE r.active = true ORDER BY r.due DESC"),
+        @NamedQuery(name="Resubmission.find", query="SELECT r FROM Resubmission r WHERE r.resubmissionId = :id")
+})
 public class Resubmission {
 
     @Id

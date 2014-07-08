@@ -192,9 +192,13 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$location
 resubmissionarControllers.controller('EditCustomerCtrl', ['$scope', '$route', '$routeParams', '$location' , '$upload', 'Customer',
     function($scope, $route, $routeParams, $location, $upload, Customer) {
         var editMode = $route.current.editMode !== 'create'; // see app.js/create-customer
+        $scope.isEditMode = editMode;
 
-        $scope.legendText = editMode ? 'Edit Customer' : 'New Customer';
+        $scope.titleText = editMode ? 'Edit Customer' : 'New Customer';
+        $scope.subTitleText = editMode ? '' : 'what a luck';
+        $scope.legendText = $scope.titleText;
         $scope.saveCustomerText = editMode ? 'Save' : 'Create';
+        $scope.cancelText = 'Cancel';
 
         var defaultForm = {
             companyName: '',
@@ -210,8 +214,6 @@ resubmissionarControllers.controller('EditCustomerCtrl', ['$scope', '$route', '$
         }
 
         $scope.saveCustomer = function(aCustomer) {
-            debugger;
-
             aCustomer.imageUrl = undefined; // Not known on the server!
             aCustomer.resubmissions = undefined;
 
@@ -227,6 +229,10 @@ resubmissionarControllers.controller('EditCustomerCtrl', ['$scope', '$route', '$
                 }
                 $location.replace();
             })
+        };
+
+        $scope.cancelEdit = function() {
+            $location.path('/customers/' + $routeParams.customerId);
         };
 
         $scope.removeImage = function() {

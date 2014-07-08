@@ -1,14 +1,18 @@
 package de.spqrinfo.resubmission.persistence;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name="UploadFile.deleteOlderThan",
+                query="DELETE from UploadFile c WHERE c.temporary = true AND c.created <= :when"),
+        @NamedQuery(name= "UploadFile.findTemporary",
+                query="SELECT uf FROM UploadFile uf WHERE uf.temporary = true AND uf.uploadId = :id"),
+        @NamedQuery(name= "UploadFile.findPermanent",
+                query="SELECT uf FROM UploadFile uf WHERE uf.temporary = false AND uf.uploadId = :id")
+})
 public class UploadFile {
 
     @Id

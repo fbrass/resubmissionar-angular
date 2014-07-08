@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1>Create customer <small>what a luck</small></h1>
+    <h1>{{titleText}} <small>{{subTitleText}}</small></h1>
 </div>
 
 <div class="container-fluid">
@@ -38,7 +38,8 @@
                 <input ng-model="customer.description" name="description" type="text" class="form-control" placeholder="Optional description"/>
             </div>
 
-            <button ng-click="saveCustomer(customer)" ng-disabled="customerform.$invalid" type="submit" class="btn btn-default">{{saveCustomerText}}</button>
+            <button ng-click="saveCustomer(customer)" ng-disabled="customerform.$invalid" type="submit" class="btn btn-primary">{{saveCustomerText}}</button>
+            <button ng-click="cancelEdit()" ng-disabled="!isEditMode" type="button" class="btn btn-default">{{cancelText}}</button>
         </form>
     </div>
 </div>

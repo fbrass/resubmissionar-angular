@@ -4,10 +4,7 @@ import de.spqrinfo.resubmission.persistence.UploadFile;
 
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -33,16 +30,9 @@ public class UploadFileService {
         return uploadFile; // guaranteed to contain the generated id outside of the transaction
     }
 
-//    public static javax.json.JsonObject getTemporaryImageInfo(final UploadFile uploadFile) {
-//        final JsonObjectBuilder builder = Json.createObjectBuilder();
-//        builder.add("logoId", Long.toString(uploadFile.getUploadId()));
-//        FileServlet.appendCustomerLogoImageUrl(builder, uploadFile);
-//        return builder.build();
-//    }
-
     @Transactional
     private void cleanTemporaryUploads(final Date past) {
-        final Query query = this.entityManager.createQuery("DELETE from UploadFile c WHERE c.temporary = true AND c.created <= :when");
+        final Query query = this.entityManager.createNamedQuery("UploadFile.deleteOlderThan");
         query.setParameter("when", past);
         query.executeUpdate();
     }
@@ -56,8 +46,22 @@ public class UploadFileService {
 
     @Transactional
     public UploadFile findTemporary(final Long id) {
-        final String cq = "SELECT uf FROM UploadFile uf WHERE uf.temporary = true AND uf.uploadId = :id";
-        final TypedQuery<UploadFile> query = this.entityManager.createQuery(cq, UploadFile.class);
+        final TypedQuery<UploadFile> query = this.entityManager.createNamedQuery("UploadFile.findTemporary", UploadFile.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
+    }
+
+    public UploadFile findTemporaryOrNull(final Long id) {
+        try {
+            return findTemporary(id);
+        } catch (final NoResultException ignored) {
+            return null;
+        }
+    }
+
+    @Transactional
+    public UploadFile findPermanent(final Long id) {
+        final TypedQuery<UploadFile> query = this.entityManager.createNamedQuery("UploadFile.findPermanent", UploadFile.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }

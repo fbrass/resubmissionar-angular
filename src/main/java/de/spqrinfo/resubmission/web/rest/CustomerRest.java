@@ -11,6 +11,7 @@ import de.spqrinfo.resubmission.web.rest.dto.ResubmissionDto;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import java.util.List;
 import java.util.logging.Logger;
@@ -87,6 +88,7 @@ public class CustomerRest {
     }
 
     @POST
+    @Transactional
     public String save(final CustomerDto customer) {
         if (customer.getId() == null) { // create
             final Customer c = new Customer();
@@ -96,7 +98,19 @@ public class CustomerRest {
             final JsonObjectBuilder builder = Json.createObjectBuilder().add("customerId", persistedCustomer.getCustomerId());
             return builder.build().toString();
         } else { // update
-            throw new RuntimeException("Not yet");
+            final Customer currentCustomer = this.resubmissionService.getCustomer(customer.getId());
+            if (currentCustomer.hasLogo()
+                    && (!customer.getLogoId().equals(currentCustomer.getLogo().getUploadId())
+                        || customer.getLogoId() == null)) {
+                // Old logo to be removed
+                this.resubmissionService.deleteCustomerLogo(currentCustomer);
+            }
+
+            currentCustomer.setCompanyName(customer.getCompanyName());
+            currentCustomer.setDescription(customer.getDescription());
+            this.resubmissionService.updateCustomer(currentCustomer, customer.getLogoId());
+            final JsonObjectBuilder builder = Json.createObjectBuilder().add("customerId", currentCustomer.getCustomerId());
+            return builder.build().toString();
         }
     }
 
@@ -109,6 +123,7 @@ public class CustomerRest {
         r.setCompanyName(customer.getCompanyName());
         r.setDescription(customer.getDescription());
         if (customer.hasLogo()) {
+            r.setLogoId(customer.getLogo().getUploadId());
             r.setImageUrl("file?kind=customerLogo&customer=" + customer.getCustomerId());
         }
         final List<ResubmissionDto> resubmissionRestList;

@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c ORDER BY c.companyName"),
+        @NamedQuery(name="Customer.findAllMatching",
+                query="SELECT c FROM Customer c WHERE lower(c.companyName) LIKE :companyName ORDER BY c.companyName"),
+        @NamedQuery(name="Customer.count", query="SELECT COUNT(c) FROM Customer c")
+})
 public class Customer {
 
     @Id
