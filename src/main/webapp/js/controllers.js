@@ -92,8 +92,8 @@ resubmissionarControllers.controller('CustomerListCtrl', ['$scope', '$http', 'Cu
         $scope.getPaginated();
     }]);
 
-resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routeParams', 'Customer', 'Resubmission',
-    function($scope, $routeParams, Customer, Resubmission) {
+resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$location', '$routeParams', 'Customer', 'Resubmission',
+    function($scope, $location, $routeParams, Customer, Resubmission) {
         function dateToYMD(date) {
             var d = date.getDate();
             var m = date.getMonth() + 1;
@@ -118,6 +118,8 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$routePar
                 $scope.customer = customer;
             });
         }
+
+        // Create new resubmission
 
         $scope.createResubmission = function(resub) {
             resub.customerId = $scope.customer.id;

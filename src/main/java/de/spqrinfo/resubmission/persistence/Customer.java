@@ -18,11 +18,11 @@ public class Customer {
 
     private String description;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("due DESC")
     private final List<Resubmission> resubmissions = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "uploadfileid")
     private UploadFile logo;
 

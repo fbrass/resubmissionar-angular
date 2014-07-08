@@ -38,6 +38,12 @@ public class CustomerRest {
         return toDetail(c);
     }
 
+    @DELETE
+    @Path("{id}")
+    public void deleteCustomer(@PathParam("id") final long id) {
+        this.resubmissionService.deleteCustomer(id);
+    }
+
     @GET
     @Path("{pageSize}/{page}")
     public CustomerPaginatedDto getAll(@PathParam("pageSize") final Integer pageSize,

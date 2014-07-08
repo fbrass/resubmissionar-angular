@@ -17,13 +17,13 @@
             <li><a href="#">Edit</a></li>
             <li><a href="#">Archive</a></li>
             <li class="divider"></li>
-            <li><a href="#">Delete customer</a></li>
+            <li><a>Delete customer</a></li>
         </ul>
     </div>
 
-    <div class="clearfix"></div>
+    <div class="clearfix" style="margin-bottom:2em"></div>
 
-    <div class="legend-container" style="margin-top:2em">
+    <div class="legend-container" >
         <span class="the-legend">New resubmission</span>
 
         <form name="resubform" role="form" novalidate="novalidate">
@@ -45,7 +45,8 @@
                         date-disabled="disabled(date, mode)" ng-required="true" show-button-bar="false" id="myDueDate"
                         name="dueDate"/>
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <button type="button" class="btn btn-default"
+                                ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
                 <span ng-show="resubform.dueDate.$invalid" class="help-block">

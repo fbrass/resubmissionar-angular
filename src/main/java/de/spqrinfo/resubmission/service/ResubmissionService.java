@@ -83,6 +83,12 @@ public class ResubmissionService {
     }
 
     @Transactional
+    public void deleteCustomer(final long id) {
+        final Customer customer = getCustomer(id);
+        this.entityManager.remove(customer);
+    }
+
+    @Transactional
     public void createResubmission(final Customer customer, final Resubmission resubmission) {
         resubmission.setResubmissionId(null); // force new
         resubmission.setActive(true);
