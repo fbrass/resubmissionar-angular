@@ -40,10 +40,10 @@
             <div class="form-group" ng-class="{'has-error':resubform.dueDate.$invalid}">
                 <label for="myDueDate">Due</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="resub.due" is-open="opened"
-                        min-date="minDate" datepicker-options="dateOptions"
-                        date-disabled="disabled(date, mode)" ng-required="true" show-button-bar="false" id="myDueDate"
-                        name="dueDate"/>
+                    <input type="text" id="myDueDate" name="dueDate" class="form-control"
+                            ng-model="resub.due" datepicker-popup="yyyy-MM-dd" is-open="opened"
+                            min-date="minDate" datepicker-options="dateOptions" show-button-bar="false"
+                            ng-required="true"  />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default"
                                 ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -84,4 +84,5 @@
             </table>
         </div>
     </div>
+
 </div>

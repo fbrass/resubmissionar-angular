@@ -139,11 +139,6 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$location
 
         // --------------------------------------- date stuff -------------------------------------
 
-        // Disable weekend selection
-        $scope.disabled = function(date, mode) {
-            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-        };
-
         $scope.open = function($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -151,14 +146,11 @@ resubmissionarControllers.controller('CustomerDetailCtrl', ['$scope', '$location
         };
 
         $scope.dateOptions = {
-            formatYear: 'yy',
             startingDay: 1
         };
 
         $scope.initDate = new Date();
-        $scope.format = 'yyyy-MM-dd';
-
-
+        $scope.minDate = $scope.initDate;
     }]);
 
 resubmissionarControllers.controller('CreateCustomerCtrl', ['$scope', '$location' , '$upload', 'Customer',
