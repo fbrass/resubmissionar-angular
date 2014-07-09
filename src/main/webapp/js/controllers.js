@@ -10,8 +10,8 @@ resubmissionarControllers.controller('NavCtrl', ['$scope', '$route', function($s
 }]);
 
 resubmissionarControllers.controller('DashboardCtrl', ['$scope', 'Dashboard', function($scope, Dashboard) {
-        $scope.dashboard = Dashboard.query();
-    }]);
+    $scope.dashboardActive = Dashboard.query();
+}]);
 
 resubmissionarControllers.controller('CustomerListCtrl', ['$scope', '$http', 'Customer',
     function($scope, $http, Customer) {

@@ -128,7 +128,9 @@ public class ResubmissionService {
     }
 
     public List<Resubmission> getDashboardResubmissions() {
-        return this.entityManager.createNamedQuery("Resubmission.findAllActive", Resubmission.class).getResultList();
+        final TypedQuery<Resubmission> query;
+        query = this.entityManager.createNamedQuery("Resubmission.findAllActive", Resubmission.class);
+        return query.getResultList();
     }
 
     @Transactional

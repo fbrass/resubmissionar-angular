@@ -9,9 +9,7 @@ import java.util.Date;
         @NamedQuery(name="UploadFile.deleteOlderThan",
                 query="DELETE from UploadFile c WHERE c.temporary = true AND c.created <= :when"),
         @NamedQuery(name= "UploadFile.findTemporary",
-                query="SELECT uf FROM UploadFile uf WHERE uf.temporary = true AND uf.uploadId = :id"),
-        @NamedQuery(name= "UploadFile.findPermanent",
-                query="SELECT uf FROM UploadFile uf WHERE uf.temporary = false AND uf.uploadId = :id")
+                query="SELECT uf FROM UploadFile uf WHERE uf.temporary = true AND uf.uploadId = :id")
 })
 public class UploadFile {
 

@@ -16,7 +16,7 @@ public class UploadFileService {
 
     private static final Logger log = Logger.getLogger(UploadFileService.class.getName());
 
-    private static final long ONE_MINUTE_IN_MILLIS = 60000; // ms
+    public static final long ONE_MINUTE_IN_MILLIS = 60000; // ms
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -57,13 +57,6 @@ public class UploadFileService {
         } catch (final NoResultException ignored) {
             return null;
         }
-    }
-
-    @Transactional
-    public UploadFile findPermanent(final Long id) {
-        final TypedQuery<UploadFile> query = this.entityManager.createNamedQuery("UploadFile.findPermanent", UploadFile.class);
-        query.setParameter("id", id);
-        return query.getSingleResult();
     }
 
     @Transactional

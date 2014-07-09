@@ -3,22 +3,32 @@
 </div>
 
 <div class="container-fluid">
-    <div class="table-responsive">
-        <table class="table table-striped dashboard-items">
-            <thead>
-                <tr>
-                    <th>Customer</th>
-                    <th>Note</th>
-                    <th>Due</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="dash in dashboard">
-                    <td class="col1"><a href="#/customers/{{dash.customerId}}">{{dash.customerName}}</a></td>
-                    <td class="col2">{{dash.resubmissionNote}}</td>
-                    <td class="col3">{{dash.resubmissionDue | date : 'yyyy-MM-dd'}}</td>
-                </tr>
-            </tbody>
-        </table>
+
+    <div class="legend-container" ng-show="dashboardActive.length">
+        <span class="the-legend">Active Resubmissions</span>
+
+        <div class="table-responsive">
+            <table  class="table table-striped dashboard-items">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Note</th>
+                        <th>Due</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="dash in dashboardActive">
+                        <td class="col1"><a href="#/customers/{{dash.customerId}}">{{dash.customerName}}</a></td>
+                        <td class="col2">{{dash.resubmissionNote}}</td>
+                        <td class="col3">{{dash.resubmissionDue | date : 'yyyy-MM-dd'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div ng-show="!dashboardActive.length" class="alert alert-info" role="alert">
+        <p>Unfortunately there is nothing to show here. Maybe you want to <a href="#/create-customer"><strong>create</strong></a>
+            or review <a href="#/customers"><strong>existing</strong></a> customers?</p>
     </div>
 </div>

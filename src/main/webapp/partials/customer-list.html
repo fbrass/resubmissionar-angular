@@ -2,14 +2,14 @@
     <h1>Customers</h1>
 </div>
 
-<div class="container-fluid customer-list">
-    <div class="col-xs-12 col-md-8">
+<div class="container-fluid">
+    <div class="col-xs-12 col-md-8 customer-list">
         <form ng-submit="search()" class="form-inline" role="form" style="margin: .3em 0 3em 0">
             <div class="form-group">
                 <label class="sr-only">Search</label>
                 <div class="input-group">
                     <input ng-model="paginationInfo.searchText" ng-keyup="search()" ng-minlength="2" type="text"
-                           class="form-control" placeholder="Customer search" autofocus="autofocus" size="70"/>
+                           class="form-control" placeholder="Customer search" autofocus="autofocus" size="50"/>
                     <span class="input-group-btn">
                         <button type="submit" ng-disabled="!isSeachEnabled()" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
                     </span>

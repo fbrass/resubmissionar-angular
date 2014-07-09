@@ -30,7 +30,6 @@ public class ResubmissionRest {
             r.setDue(resubmission.getDue());
             this.resubmissionService.createResubmission(customer, r);
         } else {
-            // TODO get resubmission by id
             final Resubmission r = this.resubmissionService.getResubmission(resubmission.getId());
             r.setNote(resubmission.getNote());
             r.setDue(resubmission.getDue());

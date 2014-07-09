@@ -8,8 +8,8 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -23,11 +23,7 @@ public class DashboardRest {
     @GET
     public DashboardtDto[] getAll() {
         final List<Resubmission> dashboardResubmissions = this.resubmissionService.getDashboardResubmissions();
-
-        final List<DashboardtDto> result = new ArrayList<>();
-        for (final Resubmission resub : dashboardResubmissions) {
-            result.add(to(resub));
-        }
+        final List<DashboardtDto> result = dashboardResubmissions.stream().map(DashboardRest::to).collect(Collectors.toList());
         return result.toArray(new DashboardtDto[result.size()]);
     }
 
