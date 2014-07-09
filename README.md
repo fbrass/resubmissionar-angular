@@ -2,16 +2,16 @@
 The Resubmissionar application demonstrates a simple CRM tool to manage customers and partners. Its aim is to support test and development of required features of modern enterprise applications.
 
 ## Features
-- JEE7 web profile application
-- JPA 2.x
-- Service interface using REST | JSon
+- [JEE7](http://docs.oracle.com/javaee/7/tutorial/doc/home.htm) web profile application
+- [JPA 2.x](http://docs.oracle.com/javaee/7/tutorial/doc/persistence-intro.htm#BNBPZ)
+- Service interface using [REST | JSon](http://en.wikipedia.org/wiki/Representational_State_Transfer)
 - [AngularJS](https://angularjs.org) frontend
 - [Bootstrap](http://getbootstrap.com) for HTML5 components
 - [AngularUI](http://angular-ui.github.io/bootstrap/) for advanced HTML5 components
 - Web package management with [bower](http://bower.io)
-- Java 8 [stream optimizations, lambdas](http://www.techempower.com/blog/2013/03/26/everything-about-java-8/)
-- Java 7 resource [management](http://www.oracle.com/technetwork/articles/java/trywithresources-401775.html)
-- Servlets 3.0 for binary up- and downloads
+- [Java 8] utilizing [stream optimizations, lambdas](http://www.techempower.com/blog/2013/03/26/everything-about-java-8/)
+- Java 7 [resource management](http://www.oracle.com/technetwork/articles/java/trywithresources-401775.html)
+- [Servlets 3.0](http://docs.oracle.com/javaee/7/tutorial/doc/servlets.htm#BNAFD) for binary up- and downloads
 
 ## Requirements
 - [Java 8]
