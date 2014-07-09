@@ -14,9 +14,9 @@ The Resubmissionar application demonstrates a simple CRM tool to manage customer
 - Servlets 3.0 for binary up- and downloads
 
 ## Requirements
-- [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-- JEE7 Application Server (e.g. [WildFly](http://wildfly.org/downloads/) >= 8.1)
-- Database, ideally supporting nested transactions (e.g. [PostgreSQL](http://www.postgresql.org/download/) >= 9.3.x)
+- [Java 8]
+- JEE7 Application Server (e.g. [WildFly] >= 8.1)
+- Database, ideally supporting nested transactions (e.g. [PostgreSQL] >= 9.3.x)
 
 ## Running
 Required
@@ -29,13 +29,13 @@ Steps
 3. Browse to [http://localhost:8080/resubmissionar-angular/](http://localhost:8080/resubmissionar-angular/)
 
 ## Setting up PostgreSQL
-The following steps assume a pristine installation of PostgreSQL >= 9.3.
+The following steps assume a pristine installation of [PostgreSQL].
 
 ### Installing PostgreSQL on OS X
-```bash
-brew install postgresql
-ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
-launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+```
+$ brew install postgresql
+$ ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 ```
 
 ### Setup PostgreSQL
@@ -65,16 +65,16 @@ resubmissionar=# \du
 ```
 
 ## Setting up WildFly
-The following steps assume a pristine download of WildFly. These steps are just a guideline and the setup may differ.
+The following steps assume a pristine download of [WildFly]. These steps are just a guideline and the setup may differ.
 
-- Simple setup of WildFly with GC settings for Java 8
-- Datasource configuration for connecting to [PostgreSQL](http://www.postgresql.org) using the current [JDBC 4.1 driver](http://jdbc.postgresql.org/download.html)
+- Simple setup of WildFly with GC settings for [Java 8].
+- Datasource configuration for connecting to [PostgreSQL] using the current [JDBC 4.1 driver](http://jdbc.postgresql.org/download.html).
 
 ### Setting up WildFly
-1. Configure Java 8 GC by editing `$WILDFLY_HOME/bin/standalone.conf` (on Windows use `standalone.conf.bat`). Append `-XX:MaxMetaspaceSize=256M` to the variable `$JAVA_OPTS`.
+1. Configure [Java 8] GC by editing `$WILDFLY_HOME/bin/standalone.conf` (on Windows use `standalone.conf.bat`). Append `-XX:MaxMetaspaceSize=256M` to the variable `$JAVA_OPTS`.
 2. Start WildFly using `$WILDFLY_HOME/bin/standalone.sh`. 
 3. For the Admin console create an user using `$WILDFLY_HOME/bin/add-user.sh` and follow the on screen instructions.
-4. Browse to the [Admin console](http://localhost:9990) and login using the specified credentials.
+4. Browse to the Admin console [http://localhost:9990](http://localhost:9990) and login using the specified credentials.
 
 ### Setting up the Datasource:
 1. Navigate to  */ Runtime / Manage Deployments*.
@@ -95,5 +95,9 @@ When reading paths, replace `/` with `\`. For scripts replace `.sh` with `.bat`.
 
 # License
 See `LICENSE.txt` in the repository.
+
+[Java 8]: http://www.oracle.com/technetwork/java/javase/downloads/index.html "Java8"
+[WildFly]: http://wildfly.org/downloads "WildFly"
+[PostgreSQL]: http://www.postgresql.org "PostgreSQL"
 
 EOF
