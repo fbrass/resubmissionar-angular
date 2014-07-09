@@ -24,9 +24,9 @@ Required
 - Application Server
 
 Steps
-1. `mvn clean package`
-2. Deploy `$PROJECT_ROOT/target/resubmissionar-angular.war` using application server console
-3. Browse to [http://localhost:8080/resubmissionar-angular/](http://localhost:8080/resubmissionar-angular/)
+- `mvn clean package`
+- Deploy `$PROJECT_ROOT/target/resubmissionar-angular.war` using application server console
+- Browse to [http://localhost:8080/resubmissionar-angular/](http://localhost:8080/resubmissionar-angular/)
 
 ## Setting up PostgreSQL
 The following steps assume a pristine installation of [PostgreSQL].
