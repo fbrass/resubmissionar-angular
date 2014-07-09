@@ -44,8 +44,8 @@ $ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 
 ```
 $ createuser -P -s -e resubmissionar
-Enter password for new role: 
-Enter it again: 
+Enter password for new role:
+Enter it again:
 CREATE ROLE resubmissionar PASSWORD 'md5ba899053e32755738fe5e17f744455ab' SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;
 $ createdb resubmissionar
 ```
@@ -58,7 +58,7 @@ Type "help" for help.
 
 resubmissionar=# \du
                                 List of roles
-   Role name    |                   Attributes                   | Member of 
+   Role name    |                   Attributes                   | Member of
 ----------------+------------------------------------------------+-----------
  johndoe        | Superuser, Create role, Create DB, Replication | {}
  resubmissionar | Superuser, Create role, Create DB              | {}
@@ -72,7 +72,7 @@ The following steps assume a pristine download of [WildFly]. These steps are jus
 
 ### Setting up WildFly
 1. Configure [Java 8] GC by editing `$WILDFLY_HOME/bin/standalone.conf` (on Windows use `standalone.conf.bat`). Append `-XX:MaxMetaspaceSize=256M` to the variable `$JAVA_OPTS`.
-2. Start WildFly using `$WILDFLY_HOME/bin/standalone.sh`. 
+2. Start WildFly using `$WILDFLY_HOME/bin/standalone.sh`.
 3. For the Admin console create an user using `$WILDFLY_HOME/bin/add-user.sh` and follow the on screen instructions.
 4. Browse to the Admin console [http://localhost:9990](http://localhost:9990) and login using the specified credentials.
 
