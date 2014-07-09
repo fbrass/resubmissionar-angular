@@ -39,6 +39,7 @@ public class UploadFile {
         return this.uploadId;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public void setUploadId(final Long uploadId) {
         this.uploadId = uploadId;
     }

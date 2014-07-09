@@ -36,6 +36,7 @@ public class Customer {
         return this.customerId;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
     }

@@ -248,10 +248,7 @@ resubmissionarControllers.controller('EditCustomerCtrl', ['$scope', '$route', '$
                     url: 'file',
                     method: 'POST', // POST or PUT
                     file: file      // or list of files: $files for html5 only
-                }).progress(function (evt) {
-                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
                 }).success(function (data /*, status, headers, config*/) { // file is uploaded successfully
-                    console.log(data);
                     $scope.uploads = data; // store uploads info in the scope to be used when customer is created
                     if (data != null && data.length > 0) {
                         var i = data[0];
@@ -259,10 +256,14 @@ resubmissionarControllers.controller('EditCustomerCtrl', ['$scope', '$route', '$
                         $scope.imageUrl = i.imageUrl;
                     }
                 });
+
+                // Optional progress function:
+                // .progress(function (evt) {
+                //   console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                // }
             }
         };
     }]);
 
 resubmissionarControllers.controller('AboutCtrl', ['$scope', function($scope) {
-
 }]);

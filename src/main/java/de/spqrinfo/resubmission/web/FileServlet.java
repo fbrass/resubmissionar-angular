@@ -55,9 +55,7 @@ public class FileServlet extends HttpServlet {
             final String contentType = part.getContentType();
             final long size = part.getSize();
 
-            InputStream inputStream = null;
-            try {
-                inputStream = part.getInputStream();
+            try (InputStream inputStream = part.getInputStream()) {
                 final byte[] data = new byte[(int) part.getSize()];
                 final int nb = inputStream.read(data);
                 inputStream.close();
@@ -74,16 +72,6 @@ public class FileServlet extends HttpServlet {
 
                 final UploadFile uploadFilePersisted = this.uploadFileService.createTemporaryUpload(uploadFile);
                 uploads.add(uploadFilePersisted);
-
-            } catch (final IOException ex) {
-                throw new RuntimeException(ex);
-            } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (final IOException ignored) {
-                    }
-                }
             }
         }
 
