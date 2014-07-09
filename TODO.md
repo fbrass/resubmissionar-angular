@@ -1,5 +1,5 @@
 - Write readme with install and setup instructions
 - Integrate flyway
 - AngularJS testing
-- Rething REST services: beans returned inconsistencies between entities vs aggregated beans (higher level)
+- Rethink REST services: beans returned inconsistencies between entities vs aggregated beans (higher level)
 - Force beans to be local beans
