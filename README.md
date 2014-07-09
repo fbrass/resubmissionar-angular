@@ -93,4 +93,7 @@ The following steps assume a pristine download of WildFly. These steps are just 
 An identifier like `$WILDFLY_HOME` indicates an environment variable, which is written on Windows systems `%WILDFLY_HOME%`. Such a variable may not exist because it is used in this document to indicate an installation root directory (e.g. the WildFly base directory).
 When reading paths, replace `/` with `\`. For scripts replace `.sh` with `.bat`.
 
+# License
+See `LICENSE.txt` in the repository.
+
 EOF
