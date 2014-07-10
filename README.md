@@ -79,7 +79,7 @@ The following steps assume a pristine download of [WildFly]. These steps are jus
 ### Setting up the Datasource:
 1. Navigate to  */ Runtime / Manage Deployments*.
 2. Click *Add* and specify the downloaded JDBC driver (e.g. `postgresql-9.3-1101.jdbc41.jar`), followed by *Next* and *Save*.
-3. Enable the the deployment using *En/Disable*.
+3. Enable the deployment using *En/Disable*.
 4. Navigate to */ Configuration /  Subsystems / Connector / Datasources*.
 5. Click *Add* to create a new Datasource; use a `Resubmissionar` as name and `java:/jdbc/resubmissionar` for the JNDI name, click *Next*.
 6. Select the downloaded PostgreSQL JDBC driver, click *Next*.
