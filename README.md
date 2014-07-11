@@ -108,6 +108,6 @@ See `LICENSE.txt` in the repository.
 [Java 8]: http://www.oracle.com/technetwork/java/javase/downloads/index.html "Java8"
 [WildFly]: http://wildfly.org/downloads "WildFly"
 [PostgreSQL]: http://www.postgresql.org "PostgreSQL"
-[JDBC]: (http://jdbc.postgresql.org/download.html) "PostgreSQL 4.1 JDBC driver"
+[JDBC]: http://jdbc.postgresql.org/download.html "PostgreSQL 4.1 JDBC driver"
 
 EOF
