@@ -16,7 +16,8 @@ The Resubmissionar application demonstrates a simple CRM tool to manage customer
 ## Requirements
 - [Java 8]
 - JEE7 Application Server (e.g. [WildFly] >= 8.1)
-- Database, ideally supporting nested transactions (e.g. [PostgreSQL] >= 9.3.x)
+- Database, ideally supporting nested transactions (e.g. [PostgreSQL]
+  >= 9.3.x) and a recent [JDBC] driver.
 
 ## Running
 Required
@@ -42,6 +43,7 @@ $ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 1. Create user `resubmissionar` which is used by WildFly to connect to the database.
 2. Create database `resubmissionar`.
 
+#### Create user/db on OS X
 ```
 $ createuser -P -s -e resubmissionar
 Enter password for new role:
@@ -50,9 +52,16 @@ CREATE ROLE resubmissionar PASSWORD 'md5ba899053e32755738fe5e17f744455ab' SUPERU
 $ createdb resubmissionar
 ```
 
+#### Create user/db on other systems
+```
+$ createuser -U postgres -P -s -e resubmissionar
+$ createdb -U postgres resubmissionar
+```
+
+### Verify database connection
 Test the setup by connecting with `psql` to the `resubmissionar` database:
 ```
-$ psql resubmissionar
+$ psql -U resubmissionar resubmissionar
 psql (9.3.4)
 Type "help" for help.
 
@@ -68,7 +77,7 @@ resubmissionar=# \du
 The following steps assume a pristine download of [WildFly]. These steps are just a guideline and the setup may differ.
 
 - Simple setup of WildFly with GC settings for [Java 8].
-- Datasource configuration for connecting to [PostgreSQL] using the current [JDBC 4.1 driver](http://jdbc.postgresql.org/download.html).
+- Datasource configuration for connecting to [PostgreSQL] using the current [JDBC] 4.1 driver.
 
 ### Setting up WildFly
 1. Configure [Java 8] GC by editing `$WILDFLY_HOME/bin/standalone.conf` (on Windows use `standalone.conf.bat`). Append `-XX:MaxMetaspaceSize=256M` to the variable `$JAVA_OPTS`.
@@ -78,7 +87,7 @@ The following steps assume a pristine download of [WildFly]. These steps are jus
 
 ### Setting up the Datasource:
 1. Navigate to  */ Runtime / Manage Deployments*.
-2. Click *Add* and specify the downloaded JDBC driver (e.g. `postgresql-9.3-1101.jdbc41.jar`), followed by *Next* and *Save*.
+2. Click *Add* and specify the downloaded [JDBC] driver (e.g. `postgresql-9.3-1101.jdbc41.jar`), followed by *Next* and *Save*.
 3. Enable the deployment using *En/Disable*.
 4. Navigate to */ Configuration /  Subsystems / Connector / Datasources*.
 5. Click *Add* to create a new Datasource; use a `Resubmissionar` as name and `java:/jdbc/resubmissionar` for the JNDI name, click *Next*.
@@ -99,5 +108,7 @@ See `LICENSE.txt` in the repository.
 [Java 8]: http://www.oracle.com/technetwork/java/javase/downloads/index.html "Java8"
 [WildFly]: http://wildfly.org/downloads "WildFly"
 [PostgreSQL]: http://www.postgresql.org "PostgreSQL"
+[JDBC]: (http://jdbc.postgresql.org/download.html) "PostgreSQL 4.1
+JDBC driver"
 
 EOF
