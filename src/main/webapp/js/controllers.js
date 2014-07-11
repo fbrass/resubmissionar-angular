@@ -228,7 +228,7 @@ resubmissionarControllers.controller('EditCustomerCtrl', ['$scope', '$route', '$
                     $location.path('/customers');
                 }
                 $location.replace();
-            })
+            });
         };
 
         $scope.cancelEdit = function() {
